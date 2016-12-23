@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'ZFNativeAdsManager'
-  s.version      = '1.0.0'
+  s.version      = '1.0.1'
   s.summary      = 'ZFNativeAdsManager integrates and dispatches mainstream leading native ads platform.'
   s.homepage     = 'https://github.com/xbull/ZFNativeAdsManager'
   s.license      = 'MIT'
@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
 
     ss.source_files = 'ZFNativeAdsManager/*.{h,m}', 'ZFNativeAdsManager/Mediator/*.{h,m}', 'ZFNativeAdsManager/Categories/*.{h,m}'
     ss.public_header_files = 'ZFNativeAdsManager/*.h'
+    ss.compiler_flags = {'ZFNativeAdsManager/Mediator/ZFNativeAdsMediator.m' => '-fno-objc-arc', 'ZFNativeAdsManager/Categories/ZFNativeAdsMediator+Facebook.m' => '-fno-objc-arc', 'ZFNativeAdsMediator+Mobvista.m' => '-fno-objc-arc',}
 
   end
 

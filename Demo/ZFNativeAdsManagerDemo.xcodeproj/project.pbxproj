@@ -12,7 +12,7 @@
 		A71BB21D1DF6657200884059 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB21C1DF6657200884059 /* AppDelegate.m */; };
 		A71BB2201DF6657200884059 /* ZFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB21F1DF6657200884059 /* ZFViewController.m */; };
 		A71BB2251DF6657200884059 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A71BB2241DF6657200884059 /* Assets.xcassets */; };
-		A71BB23A1DF6A50F00884059 /* ZFNativeAdsMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2341DF6A50F00884059 /* ZFNativeAdsMediator.m */; };
+		A71BB23A1DF6A50F00884059 /* ZFNativeAdsMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2341DF6A50F00884059 /* ZFNativeAdsMediator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A71BB23D1DF6A5AB00884059 /* ZFFBNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB23C1DF6A5AB00884059 /* ZFFBNativeAdsManager.m */; };
 		A71BB2421DF6B67200884059 /* ZFReformedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2411DF6B67200884059 /* ZFReformedNativeAd.m */; };
 		A71BB2451DF6B91E00884059 /* ZFNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2441DF6B91E00884059 /* ZFNativeAdsManager.m */; };
@@ -32,8 +32,8 @@
 		A74CB95D1DFC02E30001851D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB95C1DFC02E30001851D /* libz.tbd */; };
 		A74CB95F1DFC03260001851D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB95E1DFC03260001851D /* libsqlite3.tbd */; };
 		A74CB9631DFC17530001851D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9421DFC02240001851D /* UIKit.framework */; };
-		A77B47B91E0438390065E054 /* ZFNativeAdsMediator+Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = A77B47B81E0438390065E054 /* ZFNativeAdsMediator+Facebook.m */; };
-		A77B47BC1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m in Sources */ = {isa = PBXBuildFile; fileRef = A77B47BB1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m */; };
+		A77B47B91E0438390065E054 /* ZFNativeAdsMediator+Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = A77B47B81E0438390065E054 /* ZFNativeAdsMediator+Facebook.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A77B47BC1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m in Sources */ = {isa = PBXBuildFile; fileRef = A77B47BB1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A77C61001E04D95700CEA037 /* Target_Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = A77C60FF1E04D95700CEA037 /* Target_Facebook.m */; };
 		A77C61031E04F27100CEA037 /* Target_Mobvista.m in Sources */ = {isa = PBXBuildFile; fileRef = A77C61021E04F27100CEA037 /* Target_Mobvista.m */; };
 		A7C296331DFD3F1100E34C57 /* MVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C2962C1DFD3F1100E34C57 /* MVSDK.framework */; };
