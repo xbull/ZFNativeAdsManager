@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
     ss.source_files = 'ZFNativeAdsManager/*.{h,m}', 'ZFNativeAdsManager/Mediator/*.{h,m}', 'ZFNativeAdsManager/Categories/*.{h,m}'
     ss.public_header_files = 'ZFNativeAdsManager/*.h'
-    non_arc_files = 'ZFNativeAdsManager/Mediator/*.{h,m}', 'ZFNativeAdsManager/Categories/*.{h,m}'
+    ss.requires_arc = 'ZFNativeAdsManager/*.m'
 
   end
 
