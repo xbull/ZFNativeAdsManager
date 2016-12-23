@@ -17,7 +17,7 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 @optional
 /**
  
- * If implemented, this will get called when user click the native ads.
+ If implemented, this will get called when user click the native ads.
  
  * Notice: Some platforms (e.g. Mobvista) will not jump right after clicking.
 
@@ -34,9 +34,11 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  */
 + (instancetype)sharedInstance;
 
+// ========================================> Native Ads Begin <==========================================
+
 /**
  
- * Configure appId and apiKey for platform.
+ Configure appId and apiKey for platform.
  
  * Notice: You don't need to call this for following platforms:
     - Facebook
@@ -49,7 +51,7 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
- * Configure ids of all placement for certain platform.
+ Configure ids of all placement for certain platform.
 
  @param placementInfo includes all ids for all placements. 
         The placementKey is defined as you wish, the corresponding value is your placementID applied in your page for the platform.
@@ -60,7 +62,7 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
- * Set the priority for all platforms to determine the fetching order when they are simultaneously loaded.
+ Set the priority for all platforms to determine the fetching order when they are simultaneously loaded.
  
  @param priorityArray : And array indicates the priority of the platforms, elements is NSNumber type of ZFNativeAdsPlatform enum.
  (e.g. @[@(ZFNativeAdsPlatformFacebook), @(ZFNativeAdsPlatformMobvista)]
@@ -73,7 +75,7 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
- * Preload the ads for certain placement. This may improve the experience for showing native ads. But this will reduce the impression ratio.
+ Preload the ads for certain placement. This may improve the experience for showing native ads. But this will reduce the impression ratio.
 
  @param placementKey setting by method [configurePlacementInfo:platform]
  @param loadImageOption indicates the resource that native ads need to load. 
@@ -83,8 +85,8 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
- * Fetch native ad instantly for certain placement.
- * This will return nil if you don't preload ads for the corresponding placement.
+ Fetch native ad instantly for certain placement.
+ This will return nil if you don't preload ads for the corresponding placement.
 
  @param placementKey setting by method [configurePlacementInfo:platform]
  @return loaded native ads.
@@ -93,7 +95,7 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
- * Fetch native ad for certain placement.
+ Fetch native ad for certain placement.
 
  @param placementKey setting by method [configurePlacementInfo:platform]
  @param loadImageOption indicates the resource that native ads need to load.
@@ -104,21 +106,47 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
- * Bind Ad and view for user click interaction.
+ Bind Ad and view for user click interaction.
 
  @param reformedAd : reformed native ads.
  @param view : view that shows natives ads and receive click interaction.
  */
 - (void)registAdForInteraction:(ZFReformedNativeAd *)reformedAd view:(UIView *)view;
 
+@property (nonatomic, weak) id<ZFNativeAdsManagerDelegate> delegate;
+
+// ========================================> Native Ads End <==========================================
+
+// ========================================> Appwall Begin <==========================================
+
 /**
  
- * set debug log enable or not. Default is NO.
+ Initialize the native ads manager.
+ 
+ @param unitId The id of the ad unit. You can create your unit id from our Portal.
+ @param navigationController The UINavigationController that will be used to push App Wall Controller. If not set, it will be the root viewController of your current UIWindow. But it may failed to push our AppWall view controller if your rootViewController is not a navigation controller. So set this property is necessary.
+ */
+- (void)configureAppWallWithUnitId:(NSString *)unitId navigationController:(UINavigationController *)navigationController;
+
+/**
+ The method that kicks off the preloading of app wall ads. It may be called again in the future to refresh the ads manually.
+ You must init app wall before calling this method.
+ */
+- (void)preloadAppWall;
+
+/**
+ Present app wall modally or push app wall in your navigation controller. It depends on how you init the manager.
+ */
+- (void)showAppWall;
+
+// ========================================> Appwall End <==========================================
+
+/**
+ 
+ Set debug log enable or not. Default is NO.
 
  @param enable indicates whether or not show dubug log.
  */
 - (void)setDebugLogEnable:(BOOL)enable;
-
-@property (nonatomic, weak) id<ZFNativeAdsManagerDelegate> delegate;
 
 @end
