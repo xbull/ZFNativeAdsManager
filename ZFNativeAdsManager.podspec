@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'ZFNativeAdsManager'
-  s.version      = '1.0.2'
+  s.version      = '1.1.0'
   s.summary      = 'ZFNativeAdsManager integrates and dispatches mainstream leading native ads platform.'
   s.homepage     = 'https://github.com/xbull/ZFNativeAdsManager'
   s.license      = 'MIT'
@@ -33,6 +33,17 @@ Pod::Spec.new do |s|
     ss.source_files = 'ZFNativeAdsManager/Platforms/Mobvista/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Action/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Observer/*.{h,m}'
     ss.frameworks = 'CoreGraphics', 'Foundation', 'UIKit', 'AdSupport', 'StoreKit', 'QuartzCore', 'CoreLocation', 'CoreTelephony', 'MobileCoreServices', 'Accelerate', 'SystemConfiguration', 'CoreMotion', 'AVFoundation', 'CoreMedia', 'MessageUI', 'MediaPlayer'
     ss.vendored_frameworks = 'ZFNativeAdsManager/Platforms/Mobvista/Frameworks/MVSDK.framework'
+    ss.libraries = 'z', 'sqlite3'
+
+  end   
+
+  s.subspec 'MVAppWall' do |ss|
+
+    ss.dependency 'ZFNativeAdsManager/Core'
+    ss.dependency 'ZFNativeAdsManager/Mobvista'
+    ss.source_files = 'ZFNativeAdsManager/Platforms/MVAppWall/*.{h,m}', 'ZFNativeAdsManager/Platforms/MVAppWall/Action/*.{h,m}'
+    ss.frameworks = 'CoreGraphics', 'Foundation', 'UIKit', 'AdSupport', 'StoreKit', 'QuartzCore', 'CoreLocation', 'CoreTelephony', 'MobileCoreServices', 'Accelerate', 'SystemConfiguration', 'CoreMotion', 'AVFoundation', 'CoreMedia', 'MessageUI', 'MediaPlayer'
+    ss.vendored_frameworks = 'ZFNativeAdsManager/Platforms/MVAppWall/Frameworks/MVSDKAppWall.framework'
     ss.libraries = 'z', 'sqlite3'
 
   end   

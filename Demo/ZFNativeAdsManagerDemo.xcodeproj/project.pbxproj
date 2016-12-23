@@ -21,6 +21,7 @@
 		A72219581E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A72219571E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m */; };
 		A72219591E0D0C6700EE0DA1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9581DFC02B90001851D /* CoreMedia.framework */; };
 		A722195B1E0D0C7C00EE0DA1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A722195A1E0D0C7C00EE0DA1 /* MediaPlayer.framework */; };
+		A73AD24F1E0D876D00AD6DC0 /* MVSDKAppWall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A73AD24E1E0D876D00AD6DC0 /* MVSDKAppWall.framework */; };
 		A74CB93F1DFC01A70001851D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB93E1DFC01A70001851D /* CoreGraphics.framework */; };
 		A74CB9411DFC021D0001851D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9401DFC021D0001851D /* Foundation.framework */; };
 		A74CB9451DFC022E0001851D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9441DFC022E0001851D /* AdSupport.framework */; };
@@ -42,7 +43,6 @@
 		A77C61001E04D95700CEA037 /* Target_Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = A77C60FF1E04D95700CEA037 /* Target_Facebook.m */; };
 		A77C61031E04F27100CEA037 /* Target_Mobvista.m in Sources */ = {isa = PBXBuildFile; fileRef = A77C61021E04F27100CEA037 /* Target_Mobvista.m */; };
 		A7C296331DFD3F1100E34C57 /* MVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C2962C1DFD3F1100E34C57 /* MVSDK.framework */; };
-		A7C296341DFD3F1100E34C57 /* MVSDKAppWall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C2962D1DFD3F1100E34C57 /* MVSDKAppWall.framework */; };
 		A7C296351DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C296301DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m */; };
 		A7C296361DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C296321DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m */; };
 /* End PBXBuildFile section */
@@ -75,6 +75,7 @@
 		A72219561E0CD0AE00EE0DA1 /* ZFMVAppWallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFMVAppWallManager.h; sourceTree = "<group>"; };
 		A72219571E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMVAppWallManager.m; sourceTree = "<group>"; };
 		A722195A1E0D0C7C00EE0DA1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		A73AD24E1E0D876D00AD6DC0 /* MVSDKAppWall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MVSDKAppWall.framework; sourceTree = "<group>"; };
 		A74CB93E1DFC01A70001851D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A74CB9401DFC021D0001851D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A74CB9421DFC02240001851D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -103,7 +104,6 @@
 		A77C61011E04F27100CEA037 /* Target_Mobvista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Target_Mobvista.h; sourceTree = "<group>"; };
 		A77C61021E04F27100CEA037 /* Target_Mobvista.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Target_Mobvista.m; sourceTree = "<group>"; };
 		A7C2962C1DFD3F1100E34C57 /* MVSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MVSDK.framework; sourceTree = "<group>"; };
-		A7C2962D1DFD3F1100E34C57 /* MVSDKAppWall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MVSDKAppWall.framework; sourceTree = "<group>"; };
 		A7C2962F1DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFMobvistaNativeAdObserver.h; sourceTree = "<group>"; };
 		A7C296301DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMobvistaNativeAdObserver.m; sourceTree = "<group>"; };
 		A7C296311DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFMobvistaNativeAdsManager.h; sourceTree = "<group>"; };
@@ -117,11 +117,11 @@
 			files = (
 				A722195B1E0D0C7C00EE0DA1 /* MediaPlayer.framework in Frameworks */,
 				A72219591E0D0C6700EE0DA1 /* CoreMedia.framework in Frameworks */,
+				A73AD24F1E0D876D00AD6DC0 /* MVSDKAppWall.framework in Frameworks */,
 				A74CB9631DFC17530001851D /* UIKit.framework in Frameworks */,
 				A74CB95F1DFC03260001851D /* libsqlite3.tbd in Frameworks */,
 				A74CB95D1DFC02E30001851D /* libz.tbd in Frameworks */,
 				A74CB95B1DFC02BE0001851D /* MessageUI.framework in Frameworks */,
-				A7C296341DFD3F1100E34C57 /* MVSDKAppWall.framework in Frameworks */,
 				A74CB9571DFC02B10001851D /* AVFoundation.framework in Frameworks */,
 				A74CB9551DFC02AD0001851D /* CoreMotion.framework in Frameworks */,
 				A74CB9531DFC02A60001851D /* SystemConfiguration.framework in Frameworks */,
@@ -264,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				A72219521E0CD07700EE0DA1 /* Action */,
+				A73AD24D1E0D876D00AD6DC0 /* Frameworks */,
 				A72219561E0CD0AE00EE0DA1 /* ZFMVAppWallManager.h */,
 				A72219571E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m */,
 			);
@@ -277,6 +278,14 @@
 				A72219541E0CD09200EE0DA1 /* Target_MVAppWall.m */,
 			);
 			path = Action;
+			sourceTree = "<group>";
+		};
+		A73AD24D1E0D876D00AD6DC0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A73AD24E1E0D876D00AD6DC0 /* MVSDKAppWall.framework */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		A7C296291DFD3F1100E34C57 /* Mobvista */ = {
@@ -304,7 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				A7C2962C1DFD3F1100E34C57 /* MVSDK.framework */,
-				A7C2962D1DFD3F1100E34C57 /* MVSDKAppWall.framework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
