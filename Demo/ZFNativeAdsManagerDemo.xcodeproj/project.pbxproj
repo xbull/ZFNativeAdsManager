@@ -16,6 +16,11 @@
 		A71BB23D1DF6A5AB00884059 /* ZFFBNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB23C1DF6A5AB00884059 /* ZFFBNativeAdsManager.m */; };
 		A71BB2421DF6B67200884059 /* ZFReformedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2411DF6B67200884059 /* ZFReformedNativeAd.m */; };
 		A71BB2451DF6B91E00884059 /* ZFNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2441DF6B91E00884059 /* ZFNativeAdsManager.m */; };
+		A722194F1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m in Sources */ = {isa = PBXBuildFile; fileRef = A722194E1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A72219551E0CD09200EE0DA1 /* Target_MVAppWall.m in Sources */ = {isa = PBXBuildFile; fileRef = A72219541E0CD09200EE0DA1 /* Target_MVAppWall.m */; };
+		A72219581E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A72219571E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m */; };
+		A72219591E0D0C6700EE0DA1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9581DFC02B90001851D /* CoreMedia.framework */; };
+		A722195B1E0D0C7C00EE0DA1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A722195A1E0D0C7C00EE0DA1 /* MediaPlayer.framework */; };
 		A74CB93F1DFC01A70001851D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB93E1DFC01A70001851D /* CoreGraphics.framework */; };
 		A74CB9411DFC021D0001851D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9401DFC021D0001851D /* Foundation.framework */; };
 		A74CB9451DFC022E0001851D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74CB9441DFC022E0001851D /* AdSupport.framework */; };
@@ -63,6 +68,13 @@
 		A71BB2411DF6B67200884059 /* ZFReformedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFReformedNativeAd.m; sourceTree = "<group>"; };
 		A71BB2431DF6B91E00884059 /* ZFNativeAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFNativeAdsManager.h; sourceTree = "<group>"; };
 		A71BB2441DF6B91E00884059 /* ZFNativeAdsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFNativeAdsManager.m; sourceTree = "<group>"; };
+		A722194D1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZFNativeAdsMediator+MVAppWall.h"; sourceTree = "<group>"; };
+		A722194E1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZFNativeAdsMediator+MVAppWall.m"; sourceTree = "<group>"; };
+		A72219531E0CD09200EE0DA1 /* Target_MVAppWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Target_MVAppWall.h; sourceTree = "<group>"; };
+		A72219541E0CD09200EE0DA1 /* Target_MVAppWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Target_MVAppWall.m; sourceTree = "<group>"; };
+		A72219561E0CD0AE00EE0DA1 /* ZFMVAppWallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFMVAppWallManager.h; sourceTree = "<group>"; };
+		A72219571E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMVAppWallManager.m; sourceTree = "<group>"; };
+		A722195A1E0D0C7C00EE0DA1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		A74CB93E1DFC01A70001851D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A74CB9401DFC021D0001851D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A74CB9421DFC02240001851D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -103,6 +115,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A722195B1E0D0C7C00EE0DA1 /* MediaPlayer.framework in Frameworks */,
+				A72219591E0D0C6700EE0DA1 /* CoreMedia.framework in Frameworks */,
 				A74CB9631DFC17530001851D /* UIKit.framework in Frameworks */,
 				A74CB95F1DFC03260001851D /* libsqlite3.tbd in Frameworks */,
 				A74CB95D1DFC02E30001851D /* libz.tbd in Frameworks */,
@@ -202,6 +216,8 @@
 				A77B47B81E0438390065E054 /* ZFNativeAdsMediator+Facebook.m */,
 				A77B47BA1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.h */,
 				A77B47BB1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m */,
+				A722194D1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.h */,
+				A722194E1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -220,6 +236,7 @@
 			children = (
 				A71BB2361DF6A50F00884059 /* Facebook */,
 				A7C296291DFD3F1100E34C57 /* Mobvista */,
+				A72219511E0CD06900EE0DA1 /* MVAppWall */,
 			);
 			path = Platforms;
 			sourceTree = "<group>";
@@ -239,6 +256,25 @@
 			children = (
 				A77C60FE1E04D95700CEA037 /* Target_Facebook.h */,
 				A77C60FF1E04D95700CEA037 /* Target_Facebook.m */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
+		A72219511E0CD06900EE0DA1 /* MVAppWall */ = {
+			isa = PBXGroup;
+			children = (
+				A72219521E0CD07700EE0DA1 /* Action */,
+				A72219561E0CD0AE00EE0DA1 /* ZFMVAppWallManager.h */,
+				A72219571E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m */,
+			);
+			path = MVAppWall;
+			sourceTree = "<group>";
+		};
+		A72219521E0CD07700EE0DA1 /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				A72219531E0CD09200EE0DA1 /* Target_MVAppWall.h */,
+				A72219541E0CD09200EE0DA1 /* Target_MVAppWall.m */,
 			);
 			path = Action;
 			sourceTree = "<group>";
@@ -285,6 +321,7 @@
 		CBACE7ED012EB61F74C73ECE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A722195A1E0D0C7C00EE0DA1 /* MediaPlayer.framework */,
 				A76687051E0778C10014D63D /* Photos.framework */,
 				A74CB95E1DFC03260001851D /* libsqlite3.tbd */,
 				A74CB95C1DFC02E30001851D /* libz.tbd */,
@@ -342,7 +379,8 @@
 				TargetAttributes = {
 					A71BB2141DF6657200884059 = {
 						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 5A4J2973DH;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -431,15 +469,18 @@
 				A77C61001E04D95700CEA037 /* Target_Facebook.m in Sources */,
 				A77C61031E04F27100CEA037 /* Target_Mobvista.m in Sources */,
 				A7C296351DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m in Sources */,
+				A72219551E0CD09200EE0DA1 /* Target_MVAppWall.m in Sources */,
 				A71BB23A1DF6A50F00884059 /* ZFNativeAdsMediator.m in Sources */,
 				A77B47BC1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m in Sources */,
 				A77B47B91E0438390065E054 /* ZFNativeAdsMediator+Facebook.m in Sources */,
 				A71BB2201DF6657200884059 /* ZFViewController.m in Sources */,
 				A71BB21D1DF6657200884059 /* AppDelegate.m in Sources */,
 				A71BB2451DF6B91E00884059 /* ZFNativeAdsManager.m in Sources */,
+				A722194F1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m in Sources */,
 				A7C296361DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m in Sources */,
 				A71BB23D1DF6A5AB00884059 /* ZFFBNativeAdsManager.m in Sources */,
 				A71BB21A1DF6657200884059 /* main.m in Sources */,
+				A72219581E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m in Sources */,
 				A71BB2421DF6B67200884059 /* ZFReformedNativeAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,6 +584,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5A4J2973DH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/FBAudienceNetwork\"",
@@ -550,9 +593,12 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/ZFNativeAdsManagerDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = ZFNativeAdsManagerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ruozi.ZFNativeAdsManagerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jinsong.beermoney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "96002f99-8472-4032-b585-18efbe07d562";
+				PROVISIONING_PROFILE_SPECIFIER = GiftGameTest_Dev;
 			};
 			name = Debug;
 		};
@@ -562,6 +608,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5A4J2973DH;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/FBAudienceNetwork\"",
@@ -569,9 +617,12 @@
 				);
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/ZFNativeAdsManagerDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = ZFNativeAdsManagerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ruozi.ZFNativeAdsManagerDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jinsong.beermoney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "96002f99-8472-4032-b585-18efbe07d562";
+				PROVISIONING_PROFILE_SPECIFIER = GiftGameTest_Dev;
 			};
 			name = Release;
 		};

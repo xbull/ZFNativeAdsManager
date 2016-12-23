@@ -9,6 +9,7 @@
 #import "ZFNativeAdsManager.h"
 #import "ZFNativeAdsMediator+Facebook.h"
 #import "ZFNativeAdsMediator+Mobvista.h"
+#import "ZFNativeAdsMediator+MVAppWall.h"
 
 @interface ZFNativeAdsManager () <ZFNativeAdsDelegate>
 
@@ -160,6 +161,18 @@
             NSLog(@"【ZFNativeAdsManager】should never reach here!");
             break;
     }
+}
+
+- (void)configureAppWallWithUnitId:(NSString *)unitId navigationController:(UINavigationController *)navigationController {
+    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_configureMVAppWallWithUnitId:unitId navigationController:navigationController];
+}
+
+- (void)preloadAppWall {
+    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_preloadMVAppWall];
+}
+
+- (void)showAppWall {
+    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_showMVAppWall];
 }
 
 #pragma mark - <ZFNativeAdsDelegate>

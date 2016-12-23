@@ -21,6 +21,8 @@
 @property (nonatomic, strong) UIButton *loadButton;
 @property (nonatomic, strong) UILabel *loadLabel;
 
+@property (nonatomic, strong) UIButton *appWallButton;
+
 @end
 
 @implementation ZFViewController
@@ -84,11 +86,19 @@
         make.height.mas_equalTo(20);
     }];
     
+    [self.view addSubview:self.appWallButton];
+    [self.appWallButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).with.offset(10);
+        make.bottom.equalTo(self.view).multipliedBy(0.95);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(40);
+    }];
+    
     [self.view addSubview:self.loadButton];
     [self.loadButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
+        make.left.equalTo(self.appWallButton.mas_right).with.offset(20);
+        make.right.equalTo(self.view).with.offset(-10);
         make.bottom.equalTo(self.view).multipliedBy(0.95);
-        make.width.equalTo(self.view).multipliedBy(0.7);
         make.height.mas_equalTo(40);
     }];
 }
@@ -102,8 +112,9 @@
                                                                   @"syncload" : @"962085583908347_962089450574627"}
                                                        platform:ZFNativeAdsPlatformFacebook];
     [[ZFNativeAdsManager sharedInstance] configurePlacementInfo:@{@"preload" : @"1497",
-                                                                  @"syncload" : @"1497"}
+                                                                  @"syncload" : @"4157"}
                                                        platform:ZFNativeAdsPlatformMobvista];
+    [[ZFNativeAdsManager sharedInstance] configureAppWallWithUnitId:@"1498" navigationController:nil];
     [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook),
                                                        @(ZFNativeAdsPlatformMobvista)]];
     
@@ -112,7 +123,7 @@
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook)]];
     
     [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
-    
+    [[ZFNativeAdsManager sharedInstance] preloadAppWall];
 }
 
 #pragma mark - <ZFNativeAdsManagerDelegate>
@@ -142,6 +153,10 @@
         __strong typeof(weakSelf) self = weakSelf;
         [self renderAd:reformedAd placement:@"syncload"];
     }];
+}
+
+- (void)showAppWall {
+    [[ZFNativeAdsManager sharedInstance] showAppWall];
 }
 
 #pragma mark - Private methods
@@ -224,6 +239,17 @@
         [_loadButton addTarget:self action:@selector(onLoadAds) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loadButton;
+}
+
+- (UIButton *)appWallButton {
+    if (!_appWallButton) {
+        _appWallButton = [[UIButton alloc] init];
+        [_appWallButton setTitle:@"AppWall" forState:UIControlStateNormal];
+        [_appWallButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        _appWallButton.backgroundColor = [UIColor lightGrayColor];
+        [_appWallButton addTarget:self action:@selector(showAppWall) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _appWallButton;
 }
 
 
