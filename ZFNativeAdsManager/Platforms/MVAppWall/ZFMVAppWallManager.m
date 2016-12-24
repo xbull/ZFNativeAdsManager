@@ -35,6 +35,7 @@
 - (void)configureAppWallWithUnitId:(NSString *)unitId navigationController:(UINavigationController *)navigationController {
     if (unitId && unitId.length > 0) {
         self.appWallManager = [[MVWallAdManager alloc] initWithUnitID:unitId withNavigationController:navigationController];
+        self.appWallUnitId = unitId;
     }
 }
 
