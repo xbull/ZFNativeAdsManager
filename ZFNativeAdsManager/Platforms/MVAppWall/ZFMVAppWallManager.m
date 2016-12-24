@@ -14,8 +14,6 @@
 
 @property (nonatomic, strong) MVWallAdManager *appWallManager;
 
-@property (nonatomic, strong) NSString *appWallUnitId;
-
 @property (nonatomic, assign) BOOL debugLogEnable;
 
 @end
@@ -35,16 +33,11 @@
 - (void)configureAppWallWithUnitId:(NSString *)unitId navigationController:(UINavigationController *)navigationController {
     if (unitId && unitId.length > 0) {
         self.appWallManager = [[MVWallAdManager alloc] initWithUnitID:unitId withNavigationController:navigationController];
-        self.appWallUnitId = unitId;
     }
 }
 
-- (void)preloadAppWall {
-    if (self.appWallUnitId) {
-        [[MVSDK sharedInstance] preloadAppWallAdsWithUnitId:self.appWallUnitId];
-    } else {
-        [self printDebugLog:@"preload app wall failed. Please configure app wall before preload"];
-    }
+- (void)preloadAppWall:(NSString *)appWallUnitId {
+    [[MVSDK sharedInstance] preloadAppWallAdsWithUnitId:appWallUnitId];
 }
 
 - (void)showAppWall {
@@ -54,10 +47,6 @@
     }
     
     [self.appWallManager showAppWall];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self preloadAppWall];
-    });
 }
 
 - (void)setDebugLogEnable:(BOOL)enable {

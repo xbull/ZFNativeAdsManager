@@ -167,8 +167,8 @@
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_configureMVAppWallWithUnitId:unitId navigationController:navigationController];
 }
 
-- (void)preloadAppWall {
-    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_preloadMVAppWall];
+- (void)preloadAppWall:(NSString *)appWallUnitId {
+    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_preloadMVAppWall:appWallUnitId];
 }
 
 - (void)showAppWall {

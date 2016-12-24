@@ -34,10 +34,10 @@ NSString *const kZFNativeAdsMediatorActionShowMVAppWall = @"showAppWall";
       shouldCacheTarget:YES];
 }
 
-- (void)ZFNativeAdsMediator_preloadMVAppWall {
+- (void)ZFNativeAdsMediator_preloadMVAppWall:(NSString *)appWallUnitId {
     [self performTarget:kZFNativeAdsMediatorTargetMVAppWall
                  action:kZFNativeAdsMediatorActionPreloadMVAppWall
-                 params:@{}
+                 params:@{@"appWallUnitId" : appWallUnitId? appWallUnitId : @""}
       shouldCacheTarget:YES];
 }
 

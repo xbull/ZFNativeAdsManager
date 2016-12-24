@@ -18,7 +18,8 @@
 }
 
 - (void)Action_preloadAppWall:(NSDictionary *)params {
-    [[ZFMVAppWallManager sharedInstance] preloadAppWall];
+    NSString *appWallUnitId = [params objectForKey:@"appWallUnitId"];
+    [[ZFMVAppWallManager sharedInstance] preloadAppWall:appWallUnitId];
 }
 
 - (void)Action_showAppWall:(NSDictionary *)params {

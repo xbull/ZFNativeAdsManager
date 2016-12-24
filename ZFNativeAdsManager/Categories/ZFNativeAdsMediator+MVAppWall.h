@@ -12,7 +12,7 @@
 
 - (void)ZFNativeAdsMediator_configureMVAppWallWithUnitId:(NSString *)unitId navigationController:(UINavigationController *)navigationController;
 
-- (void)ZFNativeAdsMediator_preloadMVAppWall;
+- (void)ZFNativeAdsMediator_preloadMVAppWall:(NSString *)appWallUnitId;
 
 - (void)ZFNativeAdsMediator_showMVAppWall;
 

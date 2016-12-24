@@ -14,7 +14,7 @@
 
 - (void)configureAppWallWithUnitId:(NSString *)unitId navigationController:(UINavigationController *)navigationController;
 
-- (void)preloadAppWall;
+- (void)preloadAppWall:(NSString *)appWallUnitId;
 
 - (void)showAppWall;
 

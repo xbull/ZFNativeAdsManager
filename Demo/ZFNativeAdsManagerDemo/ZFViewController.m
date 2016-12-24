@@ -123,7 +123,7 @@
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook)]];
     
     [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
-    [[ZFNativeAdsManager sharedInstance] preloadAppWall];
+    [[ZFNativeAdsManager sharedInstance] preloadAppWall:@"1498"];
 }
 
 #pragma mark - <ZFNativeAdsManagerDelegate>

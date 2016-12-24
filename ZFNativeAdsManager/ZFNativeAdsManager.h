@@ -132,7 +132,7 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  The method that kicks off the preloading of app wall ads. It may be called again in the future to refresh the ads manually.
  You must init app wall before calling this method.
  */
-- (void)preloadAppWall;
+- (void)preloadAppWall:(NSString *)appWallUnitId;
 
 /**
  Present app wall modally or push app wall in your navigation controller. It depends on how you init the manager.
