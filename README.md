@@ -4,4 +4,14 @@ ZFNativeAdsManager is an integration of all mainstream native ads platforms. You
 ## Supported Platforms
 
 - Facebook (4.18.0)
-- Mobvista (1.4.5)
+- Mobvista (1.5.2)
+
+## Installation
+
+```
+pod 'ZFNativeAdsManager/Facebook'
+pod 'ZFNativeAdsManager/Mobvista'
+pod 'ZFNativeAdsManager/MVAppWall'
+```
+You can delete certain line if you don't need to impress native ads from that platform.
+
