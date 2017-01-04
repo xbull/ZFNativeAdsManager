@@ -5,5 +5,7 @@ target 'ZFNativeAdsManagerDemo' do
 
     pod 'Masonry'
     pod 'FBAudienceNetwork'
+    pod 'Firebase/Core'
+    pod 'Firebase/AdMob'
 
 end
