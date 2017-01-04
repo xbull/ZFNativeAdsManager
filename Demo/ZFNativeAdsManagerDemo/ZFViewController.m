@@ -9,6 +9,7 @@
 #import "ZFViewController.h"
 #import <Masonry/Masonry.h>
 #import "ZFNativeAdsManager.h"
+#import "JSInterstitialAdsManager.h"
 
 @interface ZFViewController () <ZFNativeAdsManagerDelegate>
 
@@ -22,6 +23,8 @@
 @property (nonatomic, strong) UILabel *loadLabel;
 
 @property (nonatomic, strong) UIButton *appWallButton;
+
+@property (nonatomic, strong) UIButton *interstitialButton;
 
 @end
 
@@ -101,6 +104,14 @@
         make.bottom.equalTo(self.view).multipliedBy(0.95);
         make.height.mas_equalTo(40);
     }];
+    
+    [self.view addSubview:self.interstitialButton];
+    [self.interstitialButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.appWallButton.mas_bottom).offset(5);
+        make.height.equalTo(self.appWallButton);
+        make.left.equalTo(self.appWallButton);
+        make.width.equalTo(self.appWallButton).multipliedBy(2);
+    }];
 }
 
 - (void)configureAdsInfo {
@@ -124,6 +135,8 @@
     
     [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
     [[ZFNativeAdsManager sharedInstance] preloadAppWall:@"1498"];
+    
+    [[JSInterstitialAdsManager sharedInstance] startWithAdUnitId:@"ca-app-pub-3940256099942544/4411468910"];
 }
 
 #pragma mark - <ZFNativeAdsManagerDelegate>
@@ -157,6 +170,15 @@
 
 - (void)showAppWall {
     [[ZFNativeAdsManager sharedInstance] showAppWall];
+}
+
+- (void)showInterstitial {
+    if (JSInterstitialAdStatusReady != [JSInterstitialAdsManager sharedInstance].interstitialAdStatus) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops" message:@"The interstitial is not ready now, try a few seconds later" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alert show];
+    } else {
+        [[JSInterstitialAdsManager sharedInstance] showFromViewController:self];
+    }
 }
 
 #pragma mark - Private methods
@@ -252,5 +274,15 @@
     return _appWallButton;
 }
 
+- (UIButton *)interstitialButton {
+    if (!_interstitialButton) {
+        _interstitialButton = [[UIButton alloc] init];
+        [_interstitialButton setTitle:@"Interstitial" forState:UIControlStateNormal];
+        [_interstitialButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        _interstitialButton.backgroundColor = [UIColor lightGrayColor];
+        [_interstitialButton addTarget:self action:@selector(showInterstitial) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _interstitialButton;
+}
 
 @end

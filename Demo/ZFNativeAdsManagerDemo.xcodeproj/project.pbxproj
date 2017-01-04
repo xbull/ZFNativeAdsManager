@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7F78EA74277EB4BFE9C4561C /* libPods-ZFNativeAdsManagerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3C535FE98F9B2028428C66 /* libPods-ZFNativeAdsManagerDemo.a */; };
+		9686BE421E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m in Sources */ = {isa = PBXBuildFile; fileRef = 9686BE411E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m */; };
+		96ED5B131E1CCD8E00FA8406 /* JSInterstitialAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ED5B121E1CCD8E00FA8406 /* JSInterstitialAdsManager.m */; };
+		96ED5B181E1CD00400FA8406 /* Target_Admob.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ED5B171E1CD00400FA8406 /* Target_Admob.m */; };
+		96ED5B1B1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ED5B1A1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m */; };
 		A71BB21A1DF6657200884059 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB2191DF6657200884059 /* main.m */; };
 		A71BB21D1DF6657200884059 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB21C1DF6657200884059 /* AppDelegate.m */; };
 		A71BB2201DF6657200884059 /* ZFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A71BB21F1DF6657200884059 /* ZFViewController.m */; };
@@ -51,6 +55,15 @@
 		0EDC957502A7452492C7FB6A /* Pods-ZFNativeAdsManagerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZFNativeAdsManagerDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZFNativeAdsManagerDemo/Pods-ZFNativeAdsManagerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		14D6AE00E6ABFF231B35577F /* Pods-ZFNativeAdsManagerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZFNativeAdsManagerDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZFNativeAdsManagerDemo/Pods-ZFNativeAdsManagerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		7E3C535FE98F9B2028428C66 /* libPods-ZFNativeAdsManagerDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZFNativeAdsManagerDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9686BE401E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZFNativeAdsMediator+Admob.h"; sourceTree = "<group>"; };
+		9686BE411E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZFNativeAdsMediator+Admob.m"; sourceTree = "<group>"; };
+		96ED5B111E1CCD8E00FA8406 /* JSInterstitialAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSInterstitialAdsManager.h; sourceTree = "<group>"; };
+		96ED5B121E1CCD8E00FA8406 /* JSInterstitialAdsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSInterstitialAdsManager.m; sourceTree = "<group>"; };
+		96ED5B161E1CD00400FA8406 /* Target_Admob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Target_Admob.h; sourceTree = "<group>"; };
+		96ED5B171E1CD00400FA8406 /* Target_Admob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Target_Admob.m; sourceTree = "<group>"; };
+		96ED5B191E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSAdmobInterstitialAdsManager.h; sourceTree = "<group>"; };
+		96ED5B1A1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSAdmobInterstitialAdsManager.m; sourceTree = "<group>"; };
+		96ED5B1C1E1CD05D00FA8406 /* JSInterstitialAdsDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSInterstitialAdsDefine.h; sourceTree = "<group>"; };
 		A71BB2151DF6657200884059 /* ZFNativeAdsManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZFNativeAdsManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71BB2191DF6657200884059 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A71BB21B1DF6657200884059 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -151,6 +164,25 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		96ED5B141E1CCFD300FA8406 /* Admob */ = {
+			isa = PBXGroup;
+			children = (
+				96ED5B151E1CCFEB00FA8406 /* Action */,
+				96ED5B191E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.h */,
+				96ED5B1A1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m */,
+			);
+			path = Admob;
+			sourceTree = "<group>";
+		};
+		96ED5B151E1CCFEB00FA8406 /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				96ED5B161E1CD00400FA8406 /* Target_Admob.h */,
+				96ED5B171E1CD00400FA8406 /* Target_Admob.m */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
 		A71BB20C1DF6657200884059 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +236,9 @@
 				A71BB2411DF6B67200884059 /* ZFReformedNativeAd.m */,
 				A71BB2431DF6B91E00884059 /* ZFNativeAdsManager.h */,
 				A71BB2441DF6B91E00884059 /* ZFNativeAdsManager.m */,
+				96ED5B1C1E1CD05D00FA8406 /* JSInterstitialAdsDefine.h */,
+				96ED5B111E1CCD8E00FA8406 /* JSInterstitialAdsManager.h */,
+				96ED5B121E1CCD8E00FA8406 /* JSInterstitialAdsManager.m */,
 			);
 			name = ZFNativeAdsManager;
 			path = ../ZFNativeAdsManager;
@@ -218,6 +253,8 @@
 				A77B47BB1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m */,
 				A722194D1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.h */,
 				A722194E1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m */,
+				9686BE401E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.h */,
+				9686BE411E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -234,6 +271,7 @@
 		A71BB2351DF6A50F00884059 /* Platforms */ = {
 			isa = PBXGroup;
 			children = (
+				96ED5B141E1CCFD300FA8406 /* Admob */,
 				A71BB2361DF6A50F00884059 /* Facebook */,
 				A7C296291DFD3F1100E34C57 /* Mobvista */,
 				A72219511E0CD06900EE0DA1 /* MVAppWall */,
@@ -360,12 +398,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A71BB22C1DF6657200884059 /* Build configuration list for PBXNativeTarget "ZFNativeAdsManagerDemo" */;
 			buildPhases = (
+				89BE6FBE001568E97B6C0B88 /* 📦 Check Pods Manifest.lock */,
 				B9D6DDD7F8DAF8972504212C /* [CP] Check Pods Manifest.lock */,
 				A71BB2111DF6657200884059 /* Sources */,
 				A71BB2121DF6657200884059 /* Frameworks */,
 				A71BB2131DF6657200884059 /* Resources */,
 				ABE81838C1BB457F83D5FEF6 /* [CP] Embed Pods Frameworks */,
 				811AAF5E99EF147ADC673AC8 /* [CP] Copy Pods Resources */,
+				34AA6DE3D3DFAB33460E4B42 /* 📦 Embed Pods Frameworks */,
+				CE2F06A09593AACDCC02BB5E /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -422,6 +463,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		34AA6DE3D3DFAB33460E4B42 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZFNativeAdsManagerDemo/Pods-ZFNativeAdsManagerDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		811AAF5E99EF147ADC673AC8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -435,6 +491,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZFNativeAdsManagerDemo/Pods-ZFNativeAdsManagerDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89BE6FBE001568E97B6C0B88 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		ABE81838C1BB457F83D5FEF6 /* [CP] Embed Pods Frameworks */ = {
@@ -467,6 +538,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		CE2F06A09593AACDCC02BB5E /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZFNativeAdsManagerDemo/Pods-ZFNativeAdsManagerDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -476,9 +562,12 @@
 			files = (
 				A77C61001E04D95700CEA037 /* Target_Facebook.m in Sources */,
 				A77C61031E04F27100CEA037 /* Target_Mobvista.m in Sources */,
+				96ED5B181E1CD00400FA8406 /* Target_Admob.m in Sources */,
 				A7C296351DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m in Sources */,
+				96ED5B1B1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m in Sources */,
 				A72219551E0CD09200EE0DA1 /* Target_MVAppWall.m in Sources */,
 				A71BB23A1DF6A50F00884059 /* ZFNativeAdsMediator.m in Sources */,
+				96ED5B131E1CCD8E00FA8406 /* JSInterstitialAdsManager.m in Sources */,
 				A77B47BC1E04385D0065E054 /* ZFNativeAdsMediator+Mobvista.m in Sources */,
 				A77B47B91E0438390065E054 /* ZFNativeAdsMediator+Facebook.m in Sources */,
 				A71BB2201DF6657200884059 /* ZFViewController.m in Sources */,
@@ -487,6 +576,7 @@
 				A722194F1E0CCE5F00EE0DA1 /* ZFNativeAdsMediator+MVAppWall.m in Sources */,
 				A7C296361DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m in Sources */,
 				A71BB23D1DF6A5AB00884059 /* ZFFBNativeAdsManager.m in Sources */,
+				9686BE421E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m in Sources */,
 				A71BB21A1DF6657200884059 /* main.m in Sources */,
 				A72219581E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m in Sources */,
 				A71BB2421DF6B67200884059 /* ZFReformedNativeAd.m in Sources */,
