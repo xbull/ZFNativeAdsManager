@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7F78EA74277EB4BFE9C4561C /* libPods-ZFNativeAdsManagerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3C535FE98F9B2028428C66 /* libPods-ZFNativeAdsManagerDemo.a */; };
-		9686BE421E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m in Sources */ = {isa = PBXBuildFile; fileRef = 9686BE411E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m */; };
+		9686BE421E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m in Sources */ = {isa = PBXBuildFile; fileRef = 9686BE411E1CE5F2009AB264 /* ZFNativeAdsMediator+Admob.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96ED5B131E1CCD8E00FA8406 /* JSInterstitialAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ED5B121E1CCD8E00FA8406 /* JSInterstitialAdsManager.m */; };
 		96ED5B181E1CD00400FA8406 /* Target_Admob.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ED5B171E1CD00400FA8406 /* Target_Admob.m */; };
 		96ED5B1B1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ED5B1A1E1CD02100FA8406 /* JSAdmobInterstitialAdsManager.m */; };
@@ -398,7 +398,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A71BB22C1DF6657200884059 /* Build configuration list for PBXNativeTarget "ZFNativeAdsManagerDemo" */;
 			buildPhases = (
-				89BE6FBE001568E97B6C0B88 /* 📦 Check Pods Manifest.lock */,
+				89BE6FBE001568E97B6C0B88 /* [CP] Check Pods Manifest.lock */,
 				B9D6DDD7F8DAF8972504212C /* [CP] Check Pods Manifest.lock */,
 				A71BB2111DF6657200884059 /* Sources */,
 				A71BB2121DF6657200884059 /* Frameworks */,
@@ -493,19 +493,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZFNativeAdsManagerDemo/Pods-ZFNativeAdsManagerDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		89BE6FBE001568E97B6C0B88 /* 📦 Check Pods Manifest.lock */ = {
+		89BE6FBE001568E97B6C0B88 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		ABE81838C1BB457F83D5FEF6 /* [CP] Embed Pods Frameworks */ = {
