@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'ZFNativeAdsManager'
-  s.version      = '1.2.0'
+  s.version      = '1.2.1'
   s.summary      = 'ZFNativeAdsManager integrates and dispatches mainstream leading native ads platform.'
   s.homepage     = 'https://github.com/xbull/ZFNativeAdsManager'
   s.license      = 'MIT'
@@ -68,14 +68,8 @@ Pod::Spec.new do |s|
   s.subspec 'AdmobInterstitial' do |ss|
 
     ss.dependency 'ZFNativeAdsManager/InterstitialCore'
-    ss.dependency 'Firebase', '~> 3.11.0'
-    ss.dependency 'FirebaseAnalytics', '~> 3.6.0'
-    ss.dependency 'FirebaseCore', '~> 3.4.6'
-    ss.dependency 'FirebaseInstanceID', '~> 1.0.8'
-    ss.dependency 'Google-Mobile-Ads-SDK', '~> 7.16.0'
-    ss.dependency 'GoogleInterchangeUtilities', '~> 1.2.2'
-    ss.dependency 'GoogleSymbolUtilities', '~> 1.1.2'
-    ss.dependency 'GoogleToolboxForMac', '~> 2.1.0'
+    ss.dependency 'Firebase/Core', '~> 3.11.0'
+    ss.dependency 'Firebase/AdMob', '~> 3.11.0'
     ss.source_files = 'ZFNativeAdsManager/Platforms/Admob/*.{h,m}', 'ZFNativeAdsManager/Platforms/Admob/Action/*.{h,m}'
 
   end   
