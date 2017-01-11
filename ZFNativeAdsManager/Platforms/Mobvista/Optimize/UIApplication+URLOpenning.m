@@ -30,7 +30,7 @@ static NSString *forbidURLStr;
 - (void)dp_openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
     
     if (forbidURLStr && [[url absoluteString] isEqualToString:forbidURLStr]) {
-        NSLog(@">>>>>>>>>>>forbid:%@", url);
+        NSLog(@"【ZFMobvistaNativeAdsManager】forbid:%@", url);
         forbidURLStr = nil;
         return ;
     }
@@ -40,7 +40,7 @@ static NSString *forbidURLStr;
 - (BOOL)dp_openURL:(NSURL*)url {
     
     if (forbidURLStr && [[url absoluteString] isEqualToString:forbidURLStr]) {
-        NSLog(@">>>>>>>>>>>forbid:%@", url);
+        NSLog(@"【ZFMobvistaNativeAdsManager】forbid:%@", url);
         forbidURLStr = nil;
         return YES;
     }
