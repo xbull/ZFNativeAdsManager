@@ -52,6 +52,7 @@
 		F4A18AC81E24EF4B00630360 /* NSObject+DPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18AC51E24EF4B00630360 /* NSObject+DPExtension.m */; };
 		F4A18AC91E24EF4B00630360 /* UIApplication+URLOpenning.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18AC71E24EF4B00630360 /* UIApplication+URLOpenning.m */; };
 		F4A18ACC1E24FC4A00630360 /* UIViewController+DPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18ACB1E24FC4A00630360 /* UIViewController+DPExtension.m */; };
+		F4A2C33D1E2640E100A429A8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A2C33C1E2640E100A429A8 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,6 +131,7 @@
 		F4A18AC71E24EF4B00630360 /* UIApplication+URLOpenning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+URLOpenning.m"; sourceTree = "<group>"; };
 		F4A18ACA1E24FC4A00630360 /* UIViewController+DPExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+DPExtension.h"; sourceTree = "<group>"; };
 		F4A18ACB1E24FC4A00630360 /* UIViewController+DPExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DPExtension.m"; sourceTree = "<group>"; };
+		F4A2C33C1E2640E100A429A8 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 				A71BB21C1DF6657200884059 /* AppDelegate.m */,
 				A71BB21E1DF6657200884059 /* ZFViewController.h */,
 				A71BB21F1DF6657200884059 /* ZFViewController.m */,
+				F4A2C33C1E2640E100A429A8 /* Launch Screen.storyboard */,
 				A71BB2241DF6657200884059 /* Assets.xcassets */,
 				A71BB2291DF6657200884059 /* Info.plist */,
 				A71BB2181DF6657200884059 /* Supporting Files */,
@@ -495,6 +498,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4A2C33D1E2640E100A429A8 /* Launch Screen.storyboard in Resources */,
 				A71BB2251DF6657200884059 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -723,7 +727,6 @@
 			baseConfigurationReference = 14D6AE00E6ABFF231B35577F /* Pods-ZFNativeAdsManagerDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5A4J2973DH;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -748,7 +751,6 @@
 			baseConfigurationReference = 0EDC957502A7452492C7FB6A /* Pods-ZFNativeAdsManagerDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5A4J2973DH;
 				FRAMEWORK_SEARCH_PATHS = (

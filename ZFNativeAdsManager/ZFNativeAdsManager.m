@@ -29,6 +29,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[ZFNativeAdsManager alloc] init];
+        instance.mobvistaOptimize = NO;
     });
     return instance;
 }

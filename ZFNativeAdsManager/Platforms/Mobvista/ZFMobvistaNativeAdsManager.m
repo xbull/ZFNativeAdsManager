@@ -13,6 +13,7 @@
 #import <StoreKit/StoreKit.h>
 #import "UIViewController+DPExtension.h"
 #import "UIApplication+URLOpenning.h"
+#import "ZFNativeAdsManager.h"
 
 #define MV_NATIVE_ADS_REQUEST_ONCE_COUNT        10
 #define MV_NATIVE_ADS_POOL_REFILL_THRESHOLD     5
@@ -254,19 +255,21 @@ static const char MVStoreDisplayKey;
         [self.delegate nativeAdDidClick:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
-    
-    NSString *displayToken = objc_getAssociatedObject(storeVC, &MVStoreDisplayKey);
-    if (displayToken) {
-        storeVC = [[SKStoreProductViewController alloc] init];
-        NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
-        [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
-        storeVC.delegate = self;
-    }else {
-        objc_setAssociatedObject(storeVC, &MVStoreDisplayKey, @"played", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+        SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
+        
+        NSString *displayToken = objc_getAssociatedObject(storeVC, &MVStoreDisplayKey);
+        if (displayToken) {
+            storeVC = [[SKStoreProductViewController alloc] init];
+            NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
+            [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
+            storeVC.delegate = self;
+        }else {
+            objc_setAssociatedObject(storeVC, &MVStoreDisplayKey, @"played", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+        
+        [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
     }
-    
-    [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
     
 }
 
@@ -282,7 +285,10 @@ static const char MVStoreDisplayKey;
                              error:(nullable NSError *)error
                          placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads did end jump to final url:%@ error:%@ for placement:%@", finalUrl, error, placementKey]];
-    [UIApplication disallowURLStr:[finalUrl absoluteString]];
+    
+    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+        [UIApplication disallowURLStr:[finalUrl absoluteString]];
+    }
 }
 
 #pragma mark - private methods
