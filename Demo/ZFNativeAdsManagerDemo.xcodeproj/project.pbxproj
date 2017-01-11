@@ -49,6 +49,9 @@
 		A78CA9481E135CC700E35A36 /* MVSDKAppWall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78CA9471E135CC700E35A36 /* MVSDKAppWall.framework */; };
 		A7C296351DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C296301DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m */; };
 		A7C296361DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C296321DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m */; };
+		F4A18AC81E24EF4B00630360 /* NSObject+DPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18AC51E24EF4B00630360 /* NSObject+DPExtension.m */; };
+		F4A18AC91E24EF4B00630360 /* UIApplication+URLOpenning.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18AC71E24EF4B00630360 /* UIApplication+URLOpenning.m */; };
+		F4A18ACC1E24FC4A00630360 /* UIViewController+DPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18ACB1E24FC4A00630360 /* UIViewController+DPExtension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +124,12 @@
 		A7C296301DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMobvistaNativeAdObserver.m; sourceTree = "<group>"; };
 		A7C296311DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFMobvistaNativeAdsManager.h; sourceTree = "<group>"; };
 		A7C296321DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMobvistaNativeAdsManager.m; sourceTree = "<group>"; };
+		F4A18AC41E24EF4B00630360 /* NSObject+DPExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DPExtension.h"; sourceTree = "<group>"; };
+		F4A18AC51E24EF4B00630360 /* NSObject+DPExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DPExtension.m"; sourceTree = "<group>"; };
+		F4A18AC61E24EF4B00630360 /* UIApplication+URLOpenning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+URLOpenning.h"; sourceTree = "<group>"; };
+		F4A18AC71E24EF4B00630360 /* UIApplication+URLOpenning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+URLOpenning.m"; sourceTree = "<group>"; };
+		F4A18ACA1E24FC4A00630360 /* UIViewController+DPExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+DPExtension.h"; sourceTree = "<group>"; };
+		F4A18ACB1E24FC4A00630360 /* UIViewController+DPExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DPExtension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,6 +354,7 @@
 		A7C296291DFD3F1100E34C57 /* Mobvista */ = {
 			isa = PBXGroup;
 			children = (
+				F4A18AC31E24EF4B00630360 /* Optimize */,
 				A7C2962A1DFD3F1100E34C57 /* Action */,
 				A7C2962B1DFD3F1100E34C57 /* Frameworks */,
 				A7C2962E1DFD3F1100E34C57 /* Observer */,
@@ -405,6 +415,19 @@
 				7E3C535FE98F9B2028428C66 /* libPods-ZFNativeAdsManagerDemo.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4A18AC31E24EF4B00630360 /* Optimize */ = {
+			isa = PBXGroup;
+			children = (
+				F4A18ACA1E24FC4A00630360 /* UIViewController+DPExtension.h */,
+				F4A18ACB1E24FC4A00630360 /* UIViewController+DPExtension.m */,
+				F4A18AC41E24EF4B00630360 /* NSObject+DPExtension.h */,
+				F4A18AC51E24EF4B00630360 /* NSObject+DPExtension.m */,
+				F4A18AC61E24EF4B00630360 /* UIApplication+URLOpenning.h */,
+				F4A18AC71E24EF4B00630360 /* UIApplication+URLOpenning.m */,
+			);
+			path = Optimize;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -590,11 +613,14 @@
 				A71BB2451DF6B91E00884059 /* ZFNativeAdsManager.m in Sources */,
 				A7C296361DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m in Sources */,
 				A71BB23D1DF6A5AB00884059 /* ZFFBNativeAdsManager.m in Sources */,
+				F4A18AC91E24EF4B00630360 /* UIApplication+URLOpenning.m in Sources */,
 				A77959B81E233CC9002228CB /* ZFNativeAdsMediator+Admob.m in Sources */,
 				A77959B91E233CC9002228CB /* ZFNativeAdsMediator+Facebook.m in Sources */,
 				A71BB21A1DF6657200884059 /* main.m in Sources */,
+				F4A18AC81E24EF4B00630360 /* NSObject+DPExtension.m in Sources */,
 				A77959BB1E233CC9002228CB /* ZFNativeAdsMediator+MVAppWall.m in Sources */,
 				A72219581E0CD0AE00EE0DA1 /* ZFMVAppWallManager.m in Sources */,
+				F4A18ACC1E24FC4A00630360 /* UIViewController+DPExtension.m in Sources */,
 				A71BB2421DF6B67200884059 /* ZFReformedNativeAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
