@@ -260,6 +260,7 @@ static const char MVStoreVCKey;
         [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
         
         NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
+        NSLog(@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID);
         
         SKStoreProductViewController *storeVC2 = [[SKStoreProductViewController alloc] init];
         storeVC2.delegate = self;
