@@ -21,7 +21,6 @@
 static const char MVReformAdKey;
 static const char MVAdPlacementKey;
 static const char MVStoreVCKey;
-static const char MVStoreDisplayKey;
 
 @interface ZFMobvistaNativeAdsManager () <ZFMobvistaNativeAdObserverDelegate, SKStoreProductViewControllerDelegate>
 
@@ -258,17 +257,14 @@ static const char MVStoreDisplayKey;
     if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
         SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
         
-        NSString *displayToken = objc_getAssociatedObject(storeVC, &MVStoreDisplayKey);
-        if (displayToken) {
-            storeVC = [[SKStoreProductViewController alloc] init];
-            NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
-            [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
-            storeVC.delegate = self;
-        }else {
-            objc_setAssociatedObject(storeVC, &MVStoreDisplayKey, @"played", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        }
-        
         [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
+        
+        NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
+        
+        SKStoreProductViewController *storeVC2 = [[SKStoreProductViewController alloc] init];
+        storeVC2.delegate = self;
+        [storeVC2 loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
+        objc_setAssociatedObject(nativeAd, &MVStoreVCKey, storeVC2, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
 }
