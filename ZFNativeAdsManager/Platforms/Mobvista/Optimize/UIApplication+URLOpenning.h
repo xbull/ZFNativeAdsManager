@@ -11,5 +11,6 @@
 @interface UIApplication (URLOpenning)
 
 + (void)disallowURLStr:(NSString *)URLStr;
++ (void)allowURLStr:(NSString *)URLStr;
 
 @end

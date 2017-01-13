@@ -9,17 +9,18 @@
 #import "UIApplication+URLOpenning.h"
 #import "NSObject+DPExtension.h"
 
+#define MaxForbidURLCount       5
+#define MaxAllowedURLCount      5
+
 @implementation UIApplication (URLOpenning)
 
-//static NSString *forbidURLStr;
-static NSMutableArray<NSString *> *forbidURLStrArray;
-static NSUInteger forbidURLCount;
+static NSMutableArray<NSString *> *forbidURLStrPool;
+static NSMutableArray<NSString *> *allowedURLStrPool;
 
 + (void)load {
     
-//    forbidURLStr = nil;
-    forbidURLCount = 5;
-    forbidURLStrArray = [NSMutableArray arrayWithCapacity:forbidURLCount];
+    forbidURLStrPool = [NSMutableArray arrayWithCapacity:MaxForbidURLCount];
+    allowedURLStrPool = [NSMutableArray arrayWithCapacity:MaxAllowedURLCount];
     
     [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:options:completionHandler:) swizzledSelector:@selector(dp_openURL:options:completionHandler:)];
     
@@ -28,26 +29,47 @@ static NSUInteger forbidURLCount;
 }
 
 + (void)disallowURLStr:(NSString *)URLStr {
-    if (!forbidURLStrArray) {
-        forbidURLStrArray = [NSMutableArray arrayWithCapacity:forbidURLCount];
+    if (!forbidURLStrPool) {
+        forbidURLStrPool = [NSMutableArray arrayWithCapacity:MaxForbidURLCount];
     }
-    if (forbidURLStrArray.count >= forbidURLCount) {
-        [forbidURLStrArray removeObjectAtIndex:0];
+    if (forbidURLStrPool.count >= MaxForbidURLCount) {
+        [forbidURLStrPool removeObjectAtIndex:0];
     }
-    [forbidURLStrArray addObject:URLStr];
-    NSLog(@"【ZFMobvistaNativeAdsManager】the forbid url pool:%@", forbidURLStrArray);
+    [forbidURLStrPool addObject:URLStr];
+    NSLog(@"【ZFMobvistaNativeAdsManager】the forbid url pool:%@", forbidURLStrPool);
+}
+
++ (void)allowURLStr:(NSString *)URLStr {
+    if (!allowedURLStrPool) {
+        allowedURLStrPool = [NSMutableArray arrayWithCapacity:MaxAllowedURLCount];
+    }
+    if (allowedURLStrPool.count >= MaxAllowedURLCount) {
+        [allowedURLStrPool removeObjectAtIndex:0];
+    }
+    [allowedURLStrPool addObject:URLStr];
+    NSLog(@"【ZFMobvistaNativeAdsManager】the allowed url pool:%@", allowedURLStrPool);
 }
 
 - (void)dp_openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
     
-//    if (forbidURLStr && [[url absoluteString] isEqualToString:forbidURLStr]) {
-//        NSLog(@"【ZFMobvistaNativeAdsManager】forbid:%@", url);
-//        forbidURLStr = nil;
-//        return ;
-//    }
-    if (forbidURLStrArray) {
-        for (NSString *urlStr in forbidURLStrArray) {
+    if (forbidURLStrPool) {
+        for (int i = 0; i < forbidURLStrPool.count; i++) {
+            
+            NSString *urlStr = forbidURLStrPool[i];
             if ([urlStr isEqualToString:[url absoluteString]]) {
+                
+                [forbidURLStrPool removeObjectAtIndex:i];
+                for (int j = 0; j < allowedURLStrPool.count; j++) {
+                    
+                    NSString *allowedURLStr = allowedURLStrPool[j];
+                    
+                    if ([allowedURLStr isEqualToString:[url absoluteString]]) {
+                        
+                        [allowedURLStrPool removeObjectAtIndex:j];
+                        NSLog(@"【ZFMobvistaNativeAdsManager】allow2:%@", url);
+                        return [self dp_openURL:url options:options completionHandler:completion];
+                    }
+                }
                 NSLog(@"【ZFMobvistaNativeAdsManager】forbid2:%@", url);
                 return ;
             }
@@ -59,15 +81,25 @@ static NSUInteger forbidURLCount;
 
 - (BOOL)dp_openURL:(NSURL*)url {
     
-//    if (forbidURLStr && [[url absoluteString] isEqualToString:forbidURLStr]) {
-//        NSLog(@"【ZFMobvistaNativeAdsManager】forbid:%@", url);
-//        forbidURLStr = nil;
-//        return YES;
-//    }
-    
-    if (forbidURLStrArray) {
-        for (NSString *urlStr in forbidURLStrArray) {
+    if (forbidURLStrPool) {
+        for (int i = 0; i < forbidURLStrPool.count; i++) {
+            
+            NSString *urlStr = forbidURLStrPool[i];
             if ([urlStr isEqualToString:[url absoluteString]]) {
+                
+                [forbidURLStrPool removeObjectAtIndex:i];
+                for (int j = 0; j < allowedURLStrPool.count; j++) {
+                    
+                    NSString *allowedURLStr = allowedURLStrPool[j];
+                    
+                    if ([allowedURLStr isEqualToString:[url absoluteString]]) {
+                        
+                        [allowedURLStrPool removeObjectAtIndex:j];
+                        NSLog(@"【ZFMobvistaNativeAdsManager】allow1:%@", url);
+                        return [self dp_openURL:url];
+                    }
+                    
+                }
                 NSLog(@"【ZFMobvistaNativeAdsManager】forbid1:%@", url);
                 return YES;
             }
