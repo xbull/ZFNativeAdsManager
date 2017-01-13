@@ -67,7 +67,7 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
     NSLog(@"【JSAdmobInterstitialAdsManager】Succeed to receive Ad");
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
+    if (!interstitial.hasBeenUsed && self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
         [self.delegate interstitialDidReceiveAd:interstitial];
     }
 }
