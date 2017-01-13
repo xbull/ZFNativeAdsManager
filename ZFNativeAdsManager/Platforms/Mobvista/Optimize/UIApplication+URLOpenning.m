@@ -35,7 +35,9 @@ static NSMutableArray<NSString *> *allowedURLStrPool;
     if (forbidURLStrPool.count >= MaxForbidURLCount) {
         [forbidURLStrPool removeObjectAtIndex:0];
     }
-    [forbidURLStrPool addObject:URLStr];
+    if (URLStr) {
+        [forbidURLStrPool addObject:URLStr];
+    }
     NSLog(@"【ZFMobvistaNativeAdsManager】the forbid url pool:%@", forbidURLStrPool);
 }
 
@@ -46,7 +48,9 @@ static NSMutableArray<NSString *> *allowedURLStrPool;
     if (allowedURLStrPool.count >= MaxAllowedURLCount) {
         [allowedURLStrPool removeObjectAtIndex:0];
     }
-    [allowedURLStrPool addObject:URLStr];
+    if (URLStr) {
+        [allowedURLStrPool addObject:URLStr];
+    }
     NSLog(@"【ZFMobvistaNativeAdsManager】the allowed url pool:%@", allowedURLStrPool);
 }
 
