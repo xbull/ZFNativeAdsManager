@@ -131,19 +131,19 @@ static const char MVStoreLoadedKey;
         [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    if (self.optimize) {
-        MVCampaign *campaign = objc_getAssociatedObject(reformedAd, &MVReformAdKey);
-        
-        SKStoreProductViewController *storeVC = [[SKStoreProductViewController alloc] init];
-        NSString *itunesID = [campaign.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
-        [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
-            if (!error) {
-                objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-            }
-        }];
-        storeVC.delegate = self;
-        objc_setAssociatedObject(campaign, &MVStoreVCKey, storeVC, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
+//    if (self.optimize) {
+//        MVCampaign *campaign = objc_getAssociatedObject(reformedAd, &MVReformAdKey);
+//        
+//        SKStoreProductViewController *storeVC = [[SKStoreProductViewController alloc] init];
+//        NSString *itunesID = [campaign.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
+//        [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
+//            if (!error) {
+//                objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//            }
+//        }];
+//        storeVC.delegate = self;
+//        objc_setAssociatedObject(campaign, &MVStoreVCKey, storeVC, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//    }
     
     return reformedAd;
 }
@@ -269,33 +269,41 @@ static const char MVStoreLoadedKey;
     }
     
     if (self.optimize) {
+        
+        
+//        SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
+//        
+//        NSString *result = objc_getAssociatedObject(storeVC, &MVStoreLoadedKey);
+//        
+//        if (!result) {
+//            SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
+//            replaceStoreVC.delegate = self;
+//            [[UIViewController topMostViewController] presentViewController:replaceStoreVC animated:YES completion:nil];
+//            [replaceStoreVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
+//        }else {
+//            
+//            [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
+//            
+//        }
+//        
+//        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID]];
+//        
+//        SKStoreProductViewController *storeVC2 = [[SKStoreProductViewController alloc] init];
+//        storeVC2.delegate = self;
+//        [storeVC2 loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
+//            if (!error) {
+//                objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//            }
+//        }];
+//        objc_setAssociatedObject(nativeAd, &MVStoreVCKey, storeVC2, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        
         NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
-        
-        SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
-        
-        NSString *result = objc_getAssociatedObject(storeVC, &MVStoreLoadedKey);
-        
-        if (!result) {
-            SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
-            replaceStoreVC.delegate = self;
-            [[UIViewController topMostViewController] presentViewController:replaceStoreVC animated:YES completion:nil];
-            [replaceStoreVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
-        }else {
-            
-            [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
-            
-        }
-        
+        SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
+        replaceStoreVC.delegate = self;
+        [replaceStoreVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
+        [[UIViewController topMostViewController] presentViewController:replaceStoreVC animated:YES completion:nil];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID]];
         
-        SKStoreProductViewController *storeVC2 = [[SKStoreProductViewController alloc] init];
-        storeVC2.delegate = self;
-        [storeVC2 loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
-            if (!error) {
-                objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-            }
-        }];
-        objc_setAssociatedObject(nativeAd, &MVStoreVCKey, storeVC2, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
 }
