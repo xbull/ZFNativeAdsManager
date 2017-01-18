@@ -100,7 +100,10 @@
 
 - (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption {
     
-    [self loadNativeAds:placementKey loadImageOption:loadImageOption preload:YES];
+    NSMutableOrderedSet<NSNumber *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+    if (placementAdPool && placementAdPool.count == 0) {
+        [self loadNativeAds:placementKey loadImageOption:loadImageOption preload:YES];
+    }
 }
 
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey {
