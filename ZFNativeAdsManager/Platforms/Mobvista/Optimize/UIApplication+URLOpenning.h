@@ -12,5 +12,6 @@
 
 + (void)disallowURLStr:(NSString *)URLStr;
 + (void)allowURLStr:(NSString *)URLStr;
++ (void)setURLOpenningDebugLogEnable:(BOOL)enable;
 
 @end

@@ -278,7 +278,7 @@ static const char MVStoreLoadedKey;
             
         }
         
-        NSLog(@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID);
+        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID]];
         
         SKStoreProductViewController *storeVC2 = [[SKStoreProductViewController alloc] init];
         storeVC2.delegate = self;
@@ -320,6 +320,13 @@ static const char MVStoreLoadedKey;
     if (self.debugLogEnable) {
         NSLog(@"%@", debugLog);
     }
+}
+
+#pragma mark - setters
+
+- (void)setDebugLogEnable:(BOOL)enable {
+    _debugLogEnable = enable;
+    [UIApplication setURLOpenningDebugLogEnable:enable];
 }
 
 #pragma mark - getters
