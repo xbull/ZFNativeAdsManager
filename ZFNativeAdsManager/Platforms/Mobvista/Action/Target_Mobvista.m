@@ -49,4 +49,9 @@
     [[ZFMobvistaNativeAdsManager sharedInstance] setDebugLogEnable:debugLogEnable];
 }
 
+- (void)Action_setOptimize:(NSDictionary *)params {
+    BOOL optimize = [[params objectForKey:@"optimize"] boolValue];
+    [[ZFMobvistaNativeAdsManager sharedInstance] setOptimize:optimize];
+}
+
 @end

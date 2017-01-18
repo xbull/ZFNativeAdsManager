@@ -26,4 +26,6 @@
 
 - (void)ZFNativeAdsMediator_setMobvistaDebugLogEnable:(BOOL)enable;
 
+- (void)ZFNativeAdsMediator_setMobvistaOptimize:(BOOL)optimize;
+
 @end
