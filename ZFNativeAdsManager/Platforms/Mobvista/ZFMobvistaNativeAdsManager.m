@@ -273,7 +273,7 @@ static const char MVStoreLoadedKey;
         
         SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
         
-        NSError *result = objc_getAssociatedObject(storeVC, &MVStoreLoadedKey);
+        NSString *result = objc_getAssociatedObject(storeVC, &MVStoreLoadedKey);
         
         if (!result) {
             SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
