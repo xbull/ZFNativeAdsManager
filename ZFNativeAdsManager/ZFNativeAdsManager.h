@@ -115,6 +115,8 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 @property (nonatomic, weak) id<ZFNativeAdsManagerDelegate> delegate;
 
+@property (nonatomic, assign) BOOL mobvistaOptimize;//default is NO
+
 // ========================================> Native Ads End <==========================================
 
 // ========================================> Appwall Begin <==========================================

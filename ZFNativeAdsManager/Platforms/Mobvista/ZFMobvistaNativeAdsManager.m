@@ -10,14 +10,20 @@
 #import <MVSDK/MVSDK.h>
 #import <objc/runtime.h>
 #import "ZFMobvistaNativeAdObserver.h"
+#import <StoreKit/StoreKit.h>
+#import "UIViewController+DPExtension.h"
+#import "UIApplication+URLOpenning.h"
+#import "ZFNativeAdsManager.h"
 
 #define MV_NATIVE_ADS_REQUEST_ONCE_COUNT        10
 #define MV_NATIVE_ADS_POOL_REFILL_THRESHOLD     5
 
 static const char MVReformAdKey;
 static const char MVAdPlacementKey;
+static const char MVStoreVCKey;
+static const char MVStoreLoadedKey;
 
-@interface ZFMobvistaNativeAdsManager () <ZFMobvistaNativeAdObserverDelegate>
+@interface ZFMobvistaNativeAdsManager () <ZFMobvistaNativeAdObserverDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) NSDictionary *placementInfo;
 
@@ -117,6 +123,20 @@ static const char MVAdPlacementKey;
         [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
+    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+        MVCampaign *campaign = objc_getAssociatedObject(reformedAd, &MVReformAdKey);
+        
+        SKStoreProductViewController *storeVC = [[SKStoreProductViewController alloc] init];
+        NSString *itunesID = [campaign.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
+        [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
+            if (!error) {
+                objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            }
+        }];
+        storeVC.delegate = self;
+        objc_setAssociatedObject(campaign, &MVStoreVCKey, storeVC, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
     return reformedAd;
 }
 
@@ -128,6 +148,12 @@ static const char MVAdPlacementKey;
     MVNativeAdManager *manager = [self.placementAdsManager objectForKey:placementKey];
     [manager registerViewForInteraction:view withCampaign:campaign];
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】register view %@ with campaign:%@", view, campaign]];
+}
+
+#pragma mark - SKStoreProductViewControllerDelegate
+
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - <ZFMobvistaNativeAdObserverDelegate>
@@ -233,6 +259,37 @@ static const char MVAdPlacementKey;
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidClick:placement:)]) {
         [self.delegate nativeAdDidClick:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
+    
+    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+        NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
+        
+        SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
+        
+        NSError *result = objc_getAssociatedObject(storeVC, &MVStoreLoadedKey);
+        
+        if (!result) {
+            SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
+            replaceStoreVC.delegate = self;
+            [[UIViewController topMostViewController] presentViewController:replaceStoreVC animated:YES completion:nil];
+            [replaceStoreVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
+        }else {
+            
+            [[UIViewController topMostViewController] presentViewController:storeVC animated:YES completion:nil];
+            
+        }
+        
+        NSLog(@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID);
+        
+        SKStoreProductViewController *storeVC2 = [[SKStoreProductViewController alloc] init];
+        storeVC2.delegate = self;
+        [storeVC2 loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
+            if (!error) {
+                objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            }
+        }];
+        objc_setAssociatedObject(nativeAd, &MVStoreVCKey, storeVC2, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
 }
 
 - (void)nativeAdClickUrlWillStartToJump:(nonnull NSURL *)clickUrl placement:(nonnull NSString *)placementKey {
@@ -247,6 +304,10 @@ static const char MVAdPlacementKey;
                              error:(nullable NSError *)error
                          placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads did end jump to final url:%@ error:%@ for placement:%@", finalUrl, error, placementKey]];
+    
+    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+        [UIApplication disallowURLStr:[finalUrl absoluteString]];
+    }
 }
 
 #pragma mark - private methods
