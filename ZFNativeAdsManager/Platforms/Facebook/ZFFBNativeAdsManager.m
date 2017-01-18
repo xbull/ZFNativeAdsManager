@@ -7,7 +7,6 @@
 //
 
 #import "ZFFBNativeAdsManager.h"
-#import "ZFNativeAdsManager.h"
 #import <objc/runtime.h>
 #import <FBAudienceNetwork/FBNativeAd.h>
 
