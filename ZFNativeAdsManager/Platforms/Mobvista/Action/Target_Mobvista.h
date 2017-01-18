@@ -24,4 +24,6 @@
 
 - (void)Action_setDebugLogEnable:(NSDictionary *)params;
 
+- (void)Action_setOptimize:(NSDictionary *)params;
+
 @end

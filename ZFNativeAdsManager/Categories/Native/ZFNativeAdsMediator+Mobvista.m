@@ -17,6 +17,7 @@ NSString *const kZFNativeAdsMediatorActionLoadMobvistaNativeAds = @"loadNativeAd
 NSString *const kZFNativeAdsMediatorActionFetchMobvistaNativeAds = @"fetchNativeAd";
 NSString *const kZFNativeAdsMediatorActionRegisterMobvistaAdInteraction = @"registerAdInteraction";
 NSString *const kZFNativeAdsMediatorActionSetMobvistaDebugLogEnable = @"setDebugLogEnable";
+NSString *const kZFNativeAdsMediatorActionSetMobvistaOptimize = @"setOptimize";
 
 @implementation ZFNativeAdsMediator (Mobvista)
 
@@ -69,6 +70,13 @@ NSString *const kZFNativeAdsMediatorActionSetMobvistaDebugLogEnable = @"setDebug
     [self performTarget:kZFNativeAdsMediatorTargetMobvista
                  action:kZFNativeAdsMediatorActionSetMobvistaDebugLogEnable
                  params:@{@"debugLogEnable" : @(enable)}
+      shouldCacheTarget:NO];
+}
+
+- (void)ZFNativeAdsMediator_setMobvistaOptimize:(BOOL)optimize {
+    [self performTarget:kZFNativeAdsMediatorTargetMobvista
+                 action:kZFNativeAdsMediatorActionSetMobvistaOptimize
+                 params:@{@"optimize" : @(optimize)}
       shouldCacheTarget:NO];
 }
 

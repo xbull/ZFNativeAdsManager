@@ -38,6 +38,8 @@ static const char MVStoreLoadedKey;
 
 @property (nonatomic, assign) BOOL debugLogEnable;
 
+
+
 @end
 
 @implementation ZFMobvistaNativeAdsManager
@@ -129,7 +131,7 @@ static const char MVStoreLoadedKey;
         [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+    if (self.optimize) {
         MVCampaign *campaign = objc_getAssociatedObject(reformedAd, &MVReformAdKey);
         
         SKStoreProductViewController *storeVC = [[SKStoreProductViewController alloc] init];
@@ -266,7 +268,7 @@ static const char MVStoreLoadedKey;
         [self.delegate nativeAdDidClick:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+    if (self.optimize) {
         NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
         
         SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
@@ -311,7 +313,7 @@ static const char MVStoreLoadedKey;
                          placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads did end jump to final url:%@ error:%@ for placement:%@", finalUrl, error, placementKey]];
     
-    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+    if (self.optimize) {
         [UIApplication disallowURLStr:[finalUrl absoluteString]];
     }
 }
@@ -333,6 +335,10 @@ static const char MVStoreLoadedKey;
 - (void)setDebugLogEnable:(BOOL)enable {
     _debugLogEnable = enable;
     [UIApplication setURLOpenningDebugLogEnable:enable];
+}
+
+- (void)setOptimize:(BOOL)optimize {
+    _optimize = optimize;
 }
 
 #pragma mark - getters

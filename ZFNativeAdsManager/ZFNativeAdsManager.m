@@ -260,10 +260,17 @@
     }
 }
 
+#pragma mark - Setters
+
 - (void)setDebugLogEnable:(BOOL)enable {
     
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setFacebookDebugLogEnable:enable];
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setMobvistaDebugLogEnable:enable];
+}
+
+- (void)setMobvistaOptimize:(BOOL)mobvistaOptimize {
+    _mobvistaOptimize = mobvistaOptimize;
+    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setMobvistaOptimize:mobvistaOptimize];
 }
 
 #pragma mark - Getters

@@ -27,5 +27,7 @@
 
 @property (nonatomic, weak) id<ZFNativeAdsDelegate> delegate;
 
+@property (nonatomic, assign) BOOL optimize;
+
 
 @end
