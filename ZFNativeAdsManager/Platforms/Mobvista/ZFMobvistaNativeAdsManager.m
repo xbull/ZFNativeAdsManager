@@ -128,7 +128,6 @@ static const char MVStoreLoadedKey;
         
         SKStoreProductViewController *storeVC = [[SKStoreProductViewController alloc] init];
         NSString *itunesID = [campaign.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
-        [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
         [storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:^(BOOL result, NSError * _Nullable error) {
             if (!error) {
                 objc_setAssociatedObject(storeVC, &MVStoreLoadedKey, @"success", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
