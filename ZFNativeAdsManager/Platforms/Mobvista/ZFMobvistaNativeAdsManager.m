@@ -111,8 +111,14 @@ static const char MVStoreLoadedKey;
         NSUInteger randomIndex = arc4random() % [loadedReformedAds count];
         reformedAd = [loadedReformedAds objectAtIndex:randomIndex];
     
-        [reformedAdsPool removeObject:reformedAd];
-        [self.reformedAdsCachePool setObject:reformedAdsPool forKey:placementKey];
+        if (reformedAd) {
+            [reformedAdsPool removeObject:reformedAd];
+        }
+        if (reformedAdsPool) {
+            [self.reformedAdsCachePool setObject:reformedAdsPool forKey:placementKey];
+        } else {
+            [self.reformedAdsCachePool removeObjectForKey:placementKey];
+        }
     }
         
     if (reformedAdsPool.count < MV_NATIVE_ADS_POOL_REFILL_THRESHOLD) {
