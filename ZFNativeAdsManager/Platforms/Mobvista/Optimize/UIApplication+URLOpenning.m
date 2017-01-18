@@ -8,7 +8,6 @@
 
 #import "UIApplication+URLOpenning.h"
 #import "NSObject+DPExtension.h"
-#import "ZFNativeAdsManager.h"
 
 #define MaxForbidURLCount       5
 #define MaxAllowedURLCount      5
