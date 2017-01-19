@@ -29,7 +29,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[ZFNativeAdsManager alloc] init];
-        instance.mobvistaOptimize = NO;
+        instance.mobvistaRefine = NO;
     });
     return instance;
 }
@@ -264,6 +264,12 @@
     
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setFacebookDebugLogEnable:enable];
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setMobvistaDebugLogEnable:enable];
+}
+
+#pragma mark - Setters
+- (void)setMobvistaRefine:(BOOL)mobvistaRefine {
+    _mobvistaRefine = mobvistaRefine;
+    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setMobvistaRefineMode:mobvistaRefine];
 }
 
 #pragma mark - Getters

@@ -25,7 +25,8 @@
 
 - (void)setDebugLogEnable:(BOOL)enable;
 
-@property (nonatomic, weak) id<ZFNativeAdsDelegate> delegate;
+- (void)setRefineMode:(BOOL)refineMode;
 
+@property (nonatomic, weak) id<ZFNativeAdsDelegate> delegate;
 
 @end

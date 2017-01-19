@@ -49,4 +49,9 @@
     [[ZFMobvistaNativeAdsManager sharedInstance] setDebugLogEnable:debugLogEnable];
 }
 
+- (void)Action_setRefineMode:(NSDictionary *)params {
+    BOOL refineMode = [[params objectForKey:@"refineMode"] boolValue];
+    [[ZFMobvistaNativeAdsManager sharedInstance] setRefineMode:refineMode];
+}
+
 @end

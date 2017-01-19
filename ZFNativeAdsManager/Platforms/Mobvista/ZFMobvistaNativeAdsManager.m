@@ -13,7 +13,6 @@
 #import <StoreKit/StoreKit.h>
 #import "UIViewController+DPExtension.h"
 #import "UIApplication+URLOpenning.h"
-#import "ZFNativeAdsManager.h"
 
 #define MV_NATIVE_ADS_REQUEST_ONCE_COUNT        10
 #define MV_NATIVE_ADS_POOL_REFILL_THRESHOLD     5
@@ -37,6 +36,8 @@ static const char MVStoreLoadedKey;
 @property (nonatomic, strong) NSMutableArray<MVCampaign *> *campaignRetainArray;
 
 @property (nonatomic, assign) BOOL debugLogEnable;
+
+@property (nonatomic, assign) BOOL refineMode;
 
 @end
 
@@ -129,7 +130,7 @@ static const char MVStoreLoadedKey;
         [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+    if (self.refineMode) {
         MVCampaign *campaign = objc_getAssociatedObject(reformedAd, &MVReformAdKey);
         
         SKStoreProductViewController *storeVC = [[SKStoreProductViewController alloc] init];
@@ -266,7 +267,7 @@ static const char MVStoreLoadedKey;
         [self.delegate nativeAdDidClick:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+    if (self.refineMode) {
         NSString *itunesID = [nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""];
         
         SKStoreProductViewController *storeVC = objc_getAssociatedObject(nativeAd, &MVStoreVCKey);
@@ -311,7 +312,7 @@ static const char MVStoreLoadedKey;
                          placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads did end jump to final url:%@ error:%@ for placement:%@", finalUrl, error, placementKey]];
     
-    if ([ZFNativeAdsManager sharedInstance].mobvistaOptimize) {
+    if (self.refineMode) {
         [UIApplication disallowURLStr:[finalUrl absoluteString]];
     }
 }
