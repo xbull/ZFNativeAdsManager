@@ -113,6 +113,18 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  */
 - (void)registAdForInteraction:(ZFReformedNativeAd *)reformedAd view:(UIView *)view;
 
+/**
+ 
+ Fetch an adChoiceView according to Native Ads guidelines for each platform.
+ 
+ return nil when adChoiceView is not necessary for certain reformedAd.
+
+ @param reformedAd getting by method [fetchAdForPlacement:loadImageOption:fetchBlock] or [fetchPreloadAdForPlacement:]
+ @param corner determine the orientation that adChoiceView expands.
+ @return the adchoiceView for referal reformedAd, return nil when adChoiceView is not necessary.
+ */
+- (UIView *)fetchAdChoiceView:(ZFReformedNativeAd *)reformedAd corner:(UIRectCorner)corner;
+
 @property (nonatomic, weak) id<ZFNativeAdsManagerDelegate> delegate;
 
 @property (nonatomic, assign) BOOL mobvistaRefine;//default is NO

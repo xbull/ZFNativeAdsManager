@@ -22,4 +22,6 @@
 
 - (void)Action_setDebugLogEnable:(NSDictionary *)params;
 
+- (id)Action_fetchAdChoiceView:(NSDictionary *)params;
+
 @end

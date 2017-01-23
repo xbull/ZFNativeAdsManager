@@ -179,6 +179,15 @@
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_showMVAppWall];
 }
 
+- (UIView *)fetchAdChoiceView:(ZFReformedNativeAd *)reformedAd corner:(UIRectCorner)corner {
+    
+    if (reformedAd.platform == ZFNativeAdsPlatformFacebook) {
+        return [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_fetchAdChoiceView:reformedAd corner:corner];
+    }
+    
+    return nil;
+}
+
 #pragma mark - <ZFNativeAdsDelegate>
 - (void)nativeAdDidLoad:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey {
     

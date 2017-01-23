@@ -24,6 +24,8 @@
 
 - (void)setDebugLogEnable:(BOOL)enable;
 
+- (UIView *)fetchAdChoiceView:(ZFReformedNativeAd *)reformedAd corner:(UIRectCorner)corner;
+
 @property (nonatomic, weak) id<ZFNativeAdsDelegate> delegate;
 
 @end

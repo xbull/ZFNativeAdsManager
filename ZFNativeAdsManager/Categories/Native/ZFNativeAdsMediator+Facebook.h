@@ -24,4 +24,6 @@
 
 - (void)ZFNativeAdsMediator_setFacebookDebugLogEnable:(BOOL)enable;
 
+- (UIView *)ZFNativeAdsMediator_fetchAdChoiceView:(ZFReformedNativeAd *)reformedAd corner:(UIRectCorner)corner;
+
 @end

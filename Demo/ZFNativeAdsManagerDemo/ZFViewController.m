@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) UIButton *interstitialButton;
 
+@property (nonatomic, strong) UIView *adChoiceContainingView;
+
 @end
 
 @implementation ZFViewController
@@ -58,6 +60,14 @@
     [self.preloadAdView addSubview:self.preloadImageView];
     [self.preloadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.preloadAdView);
+    }];
+    
+    [self.preloadAdView addSubview:self.adChoiceContainingView];
+    [self.adChoiceContainingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.preloadAdView);
+        make.right.equalTo(self.preloadAdView);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(20);
     }];
     
     [self.view addSubview:self.preloadLabel];
@@ -186,9 +196,24 @@
 - (void)renderAd:(ZFReformedNativeAd *)reformedAd placement:(NSString *)placementKey {
     
     if ([placementKey isEqualToString:@"preload"]) {
+        
+        for (UIView *subView in self.adChoiceContainingView.subviews) {
+            [subView removeFromSuperview];
+        }
+        
+        UIView *adChoiceView = [[ZFNativeAdsManager sharedInstance] fetchAdChoiceView:reformedAd corner:UIRectCornerTopRight];
+        [self.adChoiceContainingView addSubview:adChoiceView];
+        [adChoiceView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.adChoiceContainingView);
+        }];
+        
         self.preloadImageView.image = reformedAd.coverImage;
         [[ZFNativeAdsManager sharedInstance] registAdForInteraction:reformedAd view:self.preloadAdView];
+        
+        [self.adChoiceContainingView layoutIfNeeded];
+        
     } else if ([placementKey isEqualToString:@"syncload"]) {
+        
         self.loadImageView.image = reformedAd.coverImage;
         [[ZFNativeAdsManager sharedInstance] registAdForInteraction:reformedAd view:self.loadAdView];
     }
@@ -239,6 +264,14 @@
         _loadImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _loadImageView;
+}
+
+- (UIView *)adChoiceContainingView {
+    if (!_adChoiceContainingView) {
+        _adChoiceContainingView = [[UIView alloc] init];
+        _adChoiceContainingView.backgroundColor = [UIColor clearColor];
+    }
+    return _adChoiceContainingView;
 }
 
 - (UILabel *)loadLabel {

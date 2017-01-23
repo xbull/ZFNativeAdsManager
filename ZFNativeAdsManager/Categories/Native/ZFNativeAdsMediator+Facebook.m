@@ -16,6 +16,7 @@ NSString *const kZFNativeAdsMediatorActionLoadFacebookNativeAds = @"loadNativeAd
 NSString *const kZFNativeAdsMediatorActionFetchFacebookNativeAds = @"fetchNativeAd";
 NSString *const kZFNativeAdsMediatorActionRegisterFacebookAdInteraction = @"registerAdInteraction";
 NSString *const kZFNativeAdsMediatorActionSetFacebookDebugLogEnable = @"setDebugLogEnable";
+NSString *const kZFNativeAdsMediatorActionFetchFacebookAdChoiceView = @"fetchAdChoiceView";
 
 @implementation ZFNativeAdsMediator (Facebook)
 
@@ -43,10 +44,10 @@ NSString *const kZFNativeAdsMediatorActionSetFacebookDebugLogEnable = @"setDebug
 }
 
 - (ZFReformedNativeAd *)ZFNativeAdsMediator_fetchFacebookNativeAd:(NSString *)placementKey {
-    return  [self performTarget:kZFNativeAdsMediatorTargetFacebook
-                         action:kZFNativeAdsMediatorActionFetchFacebookNativeAds
-                         params:@{@"placementKey" : placementKey}
-              shouldCacheTarget:NO];
+    return [self performTarget:kZFNativeAdsMediatorTargetFacebook
+                        action:kZFNativeAdsMediatorActionFetchFacebookNativeAds
+                        params:@{@"placementKey" : placementKey}
+            shouldCacheTarget:NO];
 }
 
 - (void)ZFNativeAdsMediator_registerFacebookAdInteraction:(ZFReformedNativeAd *)reformedAd view:(UIView *)view {
@@ -62,6 +63,14 @@ NSString *const kZFNativeAdsMediatorActionSetFacebookDebugLogEnable = @"setDebug
                  action:kZFNativeAdsMediatorActionSetFacebookDebugLogEnable
                  params:@{@"debugLogEnable" : @(enable)}
       shouldCacheTarget:NO];
+}
+
+- (UIView *)ZFNativeAdsMediator_fetchAdChoiceView:(ZFReformedNativeAd *)reformedAd corner:(UIRectCorner)corner {
+    return [self performTarget:kZFNativeAdsMediatorTargetFacebook
+                        action:kZFNativeAdsMediatorActionFetchFacebookAdChoiceView
+                        params:@{@"reformedAd" : reformedAd,
+                                 @"corner" : @(corner)}
+             shouldCacheTarget:NO];
 }
 
 @end

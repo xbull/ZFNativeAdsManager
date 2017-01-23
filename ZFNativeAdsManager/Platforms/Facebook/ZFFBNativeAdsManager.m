@@ -98,6 +98,19 @@ static const char FBReformAdKey;
     _debugLogEnable = enable;
 }
 
+- (UIView *)fetchAdChoiceView:(ZFReformedNativeAd *)reformedAd corner:(UIRectCorner)corner {
+    
+    FBNativeAd *ad = objc_getAssociatedObject(reformedAd, &FBReformAdKey);
+    
+    if (ad) {
+        FBAdChoicesView *adChoiceView = [[FBAdChoicesView alloc] initWithNativeAd:ad expandable:YES];
+        adChoiceView.corner = corner;
+        return adChoiceView;
+    }
+    
+    return nil;
+}
+
 #pragma mark - <FBNativeAdDelegate>
 - (void)nativeAdDidLoad:(FBNativeAd *)nativeAd {
     

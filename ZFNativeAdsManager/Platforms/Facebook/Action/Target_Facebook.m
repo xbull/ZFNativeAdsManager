@@ -45,4 +45,11 @@
     [[ZFFBNativeAdsManager sharedInstance] setDebugLogEnable:debugLogEnable];
 }
 
+- (id)Action_fetchAdChoiceView:(NSDictionary *)params {
+    ZFReformedNativeAd *reformedAd = [params objectForKey:@"reformedAd"];
+    UIRectCorner corner = ((NSNumber *)[params objectForKey:@"corner"]).unsignedIntegerValue;
+    UIView *adChoiceView = [[ZFFBNativeAdsManager sharedInstance] fetchAdChoiceView:reformedAd corner:corner];
+    return adChoiceView;
+}
+
 @end
