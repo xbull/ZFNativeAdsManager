@@ -105,7 +105,7 @@ static const char FBReformAdKey;
     if (ad) {
         FBAdChoicesView *adChoiceView = [[FBAdChoicesView alloc] initWithNativeAd:ad expandable:YES];
         adChoiceView.corner = corner;
-        return adChoiceView;
+        return (UIView *)adChoiceView;
     }
     
     return nil;
