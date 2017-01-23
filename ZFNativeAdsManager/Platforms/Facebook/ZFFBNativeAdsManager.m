@@ -9,6 +9,7 @@
 #import "ZFFBNativeAdsManager.h"
 #import <objc/runtime.h>
 #import <FBAudienceNetwork/FBNativeAd.h>
+#import <FBAudienceNetwork/FBAdChoicesView.h>
 
 static const char FBReformAdKey;
 
@@ -105,7 +106,7 @@ static const char FBReformAdKey;
     if (ad) {
         FBAdChoicesView *adChoiceView = [[FBAdChoicesView alloc] initWithNativeAd:ad expandable:YES];
         adChoiceView.corner = corner;
-        return (UIView *)adChoiceView;
+        return adChoiceView;
     }
     
     return nil;
