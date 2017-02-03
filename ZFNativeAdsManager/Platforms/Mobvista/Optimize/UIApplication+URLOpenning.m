@@ -25,7 +25,11 @@ static BOOL debugLogEnable;
     
     [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:options:completionHandler:) swizzledSelector:@selector(dp_openURL:options:completionHandler:)];
     
+    [UIApplication intanceMethodExchangeWithOriginSelector:@selector(dp_openURL:options:completionHandler:) swizzledSelector:@selector(real_openURL:options:completionHandler:)];
+    
     [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:) swizzledSelector:@selector(dp_openURL:)];
+    
+    [UIApplication intanceMethodExchangeWithOriginSelector:@selector(dp_openURL:) swizzledSelector:@selector(real_openURL:)];
     
 }
 
@@ -80,7 +84,7 @@ static BOOL debugLogEnable;
                         
                         [allowedURLStrPool removeObjectAtIndex:j];
                         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】allow2:%@", url]];
-                        return [self dp_openURL:url options:options completionHandler:completion];
+                        return [self real_openURL:url options:options completionHandler:completion];
                     }
                 }
                 [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】forbid2:%@", url]];
@@ -89,7 +93,7 @@ static BOOL debugLogEnable;
         }
     }
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】dp_open url2:%@", url]];
-    [self dp_openURL:url options:options completionHandler:completion];
+    [self real_openURL:url options:options completionHandler:completion];
 }
 
 - (BOOL)dp_openURL:(NSURL*)url {
@@ -109,7 +113,7 @@ static BOOL debugLogEnable;
                         
                         [allowedURLStrPool removeObjectAtIndex:j];
                         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】allow1:%@", url]];
-                        return [self dp_openURL:url];
+                        return [self real_openURL:url];
                     }
                     
                 }
@@ -119,7 +123,7 @@ static BOOL debugLogEnable;
         }
     }
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】dp_open url1:%@", url]];
-    return [self dp_openURL:url];
+    return [self real_openURL:url];
     
 }
 
@@ -129,5 +133,17 @@ static BOOL debugLogEnable;
     }
 }
 
+//the method(real_openURL:options:completionHandler:)'s implementation is "openURL:options:completionHandler:"
+
+- (void)real_openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
+    
+}
+
+//the method(real_openURL:)'s implementation is "openURL:"
+
+- (BOOL)real_openURL:(NSURL*)url {
+    
+    return YES;
+}
 
 @end
