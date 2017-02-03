@@ -16,6 +16,7 @@
 
 static NSMutableArray<NSString *> *forbidURLStrPool;
 static NSMutableArray<NSString *> *allowedURLStrPool;
+static BOOL debugLogEnable;
 
 + (void)load {
     
@@ -38,7 +39,9 @@ static NSMutableArray<NSString *> *allowedURLStrPool;
     if (URLStr) {
         [forbidURLStrPool addObject:URLStr];
     }
-    NSLog(@"【ZFMobvistaNativeAdsManager】the forbid url pool:%@", forbidURLStrPool);
+    if (debugLogEnable) {
+        NSLog(@"【ZFMobvistaNativeAdsManager】the forbid url pool:%@", forbidURLStrPool);
+    }
 }
 
 + (void)allowURLStr:(NSString *)URLStr {
@@ -51,7 +54,13 @@ static NSMutableArray<NSString *> *allowedURLStrPool;
     if (URLStr) {
         [allowedURLStrPool addObject:URLStr];
     }
-    NSLog(@"【ZFMobvistaNativeAdsManager】the allowed url pool:%@", allowedURLStrPool);
+    if (debugLogEnable) {
+        NSLog(@"【ZFMobvistaNativeAdsManager】the allowed url pool:%@", allowedURLStrPool);
+    }
+}
+
++ (void)setURLOpenningDebugLogEnable:(BOOL)enable {
+    debugLogEnable = enable;
 }
 
 - (void)dp_openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
@@ -70,16 +79,16 @@ static NSMutableArray<NSString *> *allowedURLStrPool;
                     if ([allowedURLStr isEqualToString:[url absoluteString]]) {
                         
                         [allowedURLStrPool removeObjectAtIndex:j];
-                        NSLog(@"【ZFMobvistaNativeAdsManager】allow2:%@", url);
+                        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】allow2:%@", url]];
                         return [self dp_openURL:url options:options completionHandler:completion];
                     }
                 }
-                NSLog(@"【ZFMobvistaNativeAdsManager】forbid2:%@", url);
+                [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】forbid2:%@", url]];
                 return ;
             }
         }
     }
-    NSLog(@"【ZFMobvistaNativeAdsManager】dp_open url2:%@", url);
+    [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】dp_open url2:%@", url]];
     [self dp_openURL:url options:options completionHandler:completion];
 }
 
@@ -99,19 +108,25 @@ static NSMutableArray<NSString *> *allowedURLStrPool;
                     if ([allowedURLStr isEqualToString:[url absoluteString]]) {
                         
                         [allowedURLStrPool removeObjectAtIndex:j];
-                        NSLog(@"【ZFMobvistaNativeAdsManager】allow1:%@", url);
+                        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】allow1:%@", url]];
                         return [self dp_openURL:url];
                     }
                     
                 }
-                NSLog(@"【ZFMobvistaNativeAdsManager】forbid1:%@", url);
+                [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】forbid1:%@", url]];
                 return YES;
             }
         }
     }
-    NSLog(@"【ZFMobvistaNativeAdsManager】dp_open url1:%@", url);
+    [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】dp_open url1:%@", url]];
     return [self dp_openURL:url];
     
+}
+
+- (void)printDebugLog:(NSString *)debugLog {
+    if (debugLogEnable) {
+        NSLog(@"%@", debugLog);
+    }
 }
 
 

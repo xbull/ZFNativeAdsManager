@@ -255,7 +255,7 @@ static const char MVAdPlacementKey;
         
         NSNumber *itunesID = @([[nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""] integerValue]);
         
-        NSLog(@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID);
+        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID]];
         SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
         replaceStoreVC.delegate = self;
         [replaceStoreVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
@@ -292,6 +292,13 @@ static const char MVAdPlacementKey;
     if (self.debugLogEnable) {
         NSLog(@"%@", debugLog);
     }
+}
+
+#pragma mark - setters
+
+- (void)setDebugLogEnable:(BOOL)enable {
+    _debugLogEnable = enable;
+    [UIApplication setURLOpenningDebugLogEnable:enable];
 }
 
 #pragma mark - getters
