@@ -15,6 +15,10 @@
     
     Class class = [self class];
     
+    if (![class instancesRespondToSelector:sel1] || ![class instancesRespondToSelector:sel2]) {
+        return ;
+    }
+    
     Method method1 = class_getInstanceMethod(class, sel1);
     Method method2 = class_getInstanceMethod(class, sel2);
     
