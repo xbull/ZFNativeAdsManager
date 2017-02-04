@@ -138,7 +138,7 @@
     [[ZFNativeAdsManager sharedInstance] configureAppWallWithUnitId:@"1498" navigationController:nil];
     [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook),
                                                        @(ZFNativeAdsPlatformMobvista)]];
-    [ZFNativeAdsManager sharedInstance].mobvistaRefine = YES;
+    [ZFNativeAdsManager sharedInstance].mobvistaRefine = NO;
     
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformMobvista)]];
     
