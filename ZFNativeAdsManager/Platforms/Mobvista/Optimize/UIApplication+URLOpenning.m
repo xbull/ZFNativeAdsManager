@@ -9,27 +9,30 @@
 #import "UIApplication+URLOpenning.h"
 #import "NSObject+DPExtension.h"
 
-#define MaxForbidURLCount       5
-#define MaxAllowedURLCount      5
+#define MaxForbidURLCount                   5
+#define MaxAllowedURLCount                  5
+#define MaxForbidURLContainedStrCount       5
 
 @implementation UIApplication (URLOpenning)
 
 static NSMutableArray<NSString *> *forbidURLStrPool;
 static NSMutableArray<NSString *> *allowedURLStrPool;
+static NSMutableArray<NSString *> *forbidURLContainedStrPool;
 static BOOL debugLogEnable;
 
 + (void)load {
     
-    forbidURLStrPool = [NSMutableArray arrayWithCapacity:MaxForbidURLCount];
-    allowedURLStrPool = [NSMutableArray arrayWithCapacity:MaxAllowedURLCount];
+    static dispatch_once_t oncePredicate;
     
-    [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:options:completionHandler:) swizzledSelector:@selector(dp_openURL:options:completionHandler:)];
-    
-    [UIApplication intanceMethodExchangeWithOriginSelector:@selector(dp_openURL:options:completionHandler:) swizzledSelector:@selector(real_openURL:options:completionHandler:)];
-    
-    [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:) swizzledSelector:@selector(dp_openURL:)];
-    
-    [UIApplication intanceMethodExchangeWithOriginSelector:@selector(dp_openURL:) swizzledSelector:@selector(real_openURL:)];
+    dispatch_once(&oncePredicate, ^{
+        [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:options:completionHandler:) swizzledSelector:@selector(dp_openURL:options:completionHandler:)];
+        
+        [UIApplication intanceMethodExchangeWithOriginSelector:@selector(dp_openURL:options:completionHandler:) swizzledSelector:@selector(real_openURL:options:completionHandler:)];
+        
+        [UIApplication intanceMethodExchangeWithOriginSelector:@selector(openURL:) swizzledSelector:@selector(dp_openURL:)];
+        
+        [UIApplication intanceMethodExchangeWithOriginSelector:@selector(dp_openURL:) swizzledSelector:@selector(real_openURL:)];
+    });
     
 }
 
@@ -45,6 +48,21 @@ static BOOL debugLogEnable;
     }
     if (debugLogEnable) {
         NSLog(@"【ZFMobvistaNativeAdsManager】the forbid url pool:%@", forbidURLStrPool);
+    }
+}
+
++ (void)disallowURLContainString:(NSString *)string {
+    if (!forbidURLContainedStrPool) {
+        forbidURLContainedStrPool = [NSMutableArray arrayWithCapacity:MaxForbidURLContainedStrCount];
+    }
+    if (forbidURLContainedStrPool.count >= MaxForbidURLContainedStrCount) {
+        [forbidURLContainedStrPool removeObjectAtIndex:0];
+    }
+    if (string) {
+        [forbidURLContainedStrPool addObject:string];
+    }
+    if (debugLogEnable) {
+        NSLog(@"【ZFMobvistaNativeAdsManager】the forbid str pool:%@", forbidURLContainedStrPool);
     }
 }
 
@@ -88,6 +106,18 @@ static BOOL debugLogEnable;
                     }
                 }
                 [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】forbid2:%@", url]];
+                completion(YES);
+                return ;
+            }
+        }
+    }
+    if (forbidURLContainedStrPool) {
+        for (int i = 0; i < forbidURLContainedStrPool.count; i++) {
+            NSString *forbidString = forbidURLContainedStrPool[i];
+            if ([[url absoluteString] containsString:forbidString]) {
+                
+                [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】string forbid2:%@", url]];
+                completion(YES);
                 return ;
             }
         }
@@ -118,6 +148,16 @@ static BOOL debugLogEnable;
                     
                 }
                 [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】forbid1:%@", url]];
+                return YES;
+            }
+        }
+    }
+    if (forbidURLContainedStrPool) {
+        for (int i = 0; i < forbidURLContainedStrPool.count; i++) {
+            NSString *forbidString = forbidURLContainedStrPool[i];
+            if ([[url absoluteString] containsString:forbidString]) {
+                
+                [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】string forbid1:%@", url]];
                 return YES;
             }
         }

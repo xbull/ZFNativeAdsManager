@@ -253,6 +253,8 @@ static const char MVAdPlacementKey;
     
     if (self.refineMode) {
         
+        [UIApplication disallowURLContainString:nativeAd.packageName];
+        
         NSNumber *itunesID = @([[nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""] integerValue]);
         
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID]];
@@ -278,7 +280,17 @@ static const char MVAdPlacementKey;
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads did end jump to final url:%@ error:%@ for placement:%@", finalUrl, error, placementKey]];
     
     if (self.refineMode) {
-        [UIApplication disallowURLStr:[finalUrl absoluteString]];
+        
+        NSString *urlStr = [finalUrl absoluteString];
+        
+        NSString *pattern = @"id[0-9]{1,}";
+        NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionDotMatchesLineSeparators error:nil];
+        if ([reg numberOfMatchesInString:urlStr options:NSMatchingReportCompletion range:NSMakeRange(0, urlStr.length)]) {
+            NSRange range = [reg rangeOfFirstMatchInString:urlStr options:NSMatchingReportCompletion range:NSMakeRange(0, urlStr.length)];
+            NSString *forbidStr = [urlStr substringWithRange:range];
+            [UIApplication disallowURLContainString:forbidStr];
+        }
+        
     }
 }
 

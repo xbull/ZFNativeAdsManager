@@ -11,6 +11,7 @@
 @interface UIApplication (URLOpenning)
 
 + (void)disallowURLStr:(NSString *)URLStr;
++ (void)disallowURLContainString:(NSString *)string;
 + (void)allowURLStr:(NSString *)URLStr;
 + (void)setURLOpenningDebugLogEnable:(BOOL)enable;
 
