@@ -9,12 +9,15 @@
 #import "JSAdmobInterstitialAdsManager.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+#define kMaxFailureCount 5
+
 static JSAdmobInterstitialAdsManager *_instance = nil;
 
 @interface JSAdmobInterstitialAdsManager () <GADInterstitialDelegate>
 
 @property (nonatomic, strong) NSString        *adUnitId;
 @property (nonatomic, strong) GADInterstitial *interstitial;
+@property (nonatomic, assign) NSUInteger      failureCount;
 
 @end
 
@@ -25,6 +28,7 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _instance = [[JSAdmobInterstitialAdsManager alloc] init];
+        _instance.failureCount = 0;
     });
     return _instance;
 }
@@ -33,7 +37,7 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
 
 - (void)startWithAdUnitId:(NSString *)adUnitId {
     self.adUnitId = adUnitId;
-    self.interstitial = [self createAndLoadInterstitial];
+    [self createAndLoadInterstitial];
 }
 
 - (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -44,12 +48,14 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
 
 #pragma mark - Private method
 
-- (GADInterstitial *)createAndLoadInterstitial {
-    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:self.adUnitId];
-    interstitial.delegate = self;
-    [interstitial loadRequest:[GADRequest request]];
+- (void)createAndLoadInterstitial {
+    if (self.failureCount > kMaxFailureCount) {
+        return;
+    }
     
-    return interstitial;
+    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:self.adUnitId];
+    self.interstitial.delegate = self;
+    [self.interstitial loadRequest:[GADRequest request]];
 }
 
 #pragma mark - GADInterstitialDelegate
@@ -57,7 +63,7 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
 - (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
     NSLog(@"【JSAdmobInterstitialAdsManager】Ad did dismiss screen");
     
-    self.interstitial = [self createAndLoadInterstitial];
+    [self createAndLoadInterstitial];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidDismissScreen:)]) {
         [self.delegate interstitialDidDismissScreen:interstitial];
@@ -65,7 +71,16 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
 }
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    if (self.failureCount > 0) {
+        self.failureCount -= 1;
+    }
+    
     NSLog(@"【JSAdmobInterstitialAdsManager】Succeed to receive Ad");
+    
+    if (interstitial.hasBeenUsed) {
+        [self createAndLoadInterstitial];
+        return;
+    }
     
     if (!interstitial.hasBeenUsed && self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
         [self.delegate interstitialDidReceiveAd:interstitial];
@@ -73,8 +88,10 @@ static JSAdmobInterstitialAdsManager *_instance = nil;
 }
 
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    self.failureCount += 1;
+    
     NSLog(@"【JSAdmobInterstitialAdsManager】Failed to receive Ad: %@", error.localizedDescription);
-    self.interstitial = [self createAndLoadInterstitial];
+    [self createAndLoadInterstitial];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidFailToReceiveAdWithError:)]) {
         [self.delegate interstitialDidFailToReceiveAdWithError:error];
