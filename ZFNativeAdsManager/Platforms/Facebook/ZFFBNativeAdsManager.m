@@ -52,6 +52,13 @@ static const char FBReformAdKey;
     
     [self.loadImageIndicator setObject:@(loadImageOption) forKey:placementKey];
     
+    if ([self.cachedAdDictionary objectForKey:placementKey]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
+            [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformFacebook placement:placementKey];
+        }
+        return ;
+    }
+    
     if (self.placementInfo && [self.placementInfo objectForKey:placementKey]) {
         
         FBNativeAd *nativeAd = [[FBNativeAd alloc] initWithPlacementID:[self.placementInfo objectForKey:placementKey]];
@@ -76,9 +83,9 @@ static const char FBReformAdKey;
         [self loadNativeAds:placementKey loadImageOption:loadImageOption preload:YES];
     }
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
-        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformFacebook placement:placementKey];
-    }
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
+//        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformFacebook placement:placementKey];
+//    }
     
     return reformedAd;
 }
@@ -214,6 +221,10 @@ static const char FBReformAdKey;
 
 - (void)nativeAd:(FBNativeAd *)nativeAd didFailWithError:(NSError *)error {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFFBNativeAdsManager】native ad did fail with error:%@", error]];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidFail:placement:error:)]) {
+        NSString *placementKey = [self placementKeyForPlacementId:nativeAd.placementID];
+        [self.delegate nativeAdDidFail:ZFNativeAdsPlatformFacebook placement:placementKey error:error];
+    }
 }
 
 - (void)nativeAdDidClick:(FBNativeAd *)nativeAd {
