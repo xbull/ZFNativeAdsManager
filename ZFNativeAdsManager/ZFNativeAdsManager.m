@@ -137,6 +137,8 @@ static const NSString *DPNativeAdsKey;
         
         return nativeAd;
     }
+    [self checkoutAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self checkoutAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformMobvista];
 
     return nil;
 }
@@ -154,19 +156,39 @@ static const NSString *DPNativeAdsKey;
         NSUInteger fetchedCount = (count < placementAdPool.count) ? count : placementAdPool.count;
         NSMutableArray *reformedNativeAds = [NSMutableArray arrayWithCapacity:fetchedCount];
         
+        NSMutableArray *recyclePool = [NSMutableArray array];
         for (int i = 0; i < fetchedCount; i++) {
-            ZFReformedNativeAd *nativeAd = [placementAdPool objectAtIndex:0];
-            [placementAdPool removeObjectAtIndex:0];
-            if (nativeAd) {
-                [reformedNativeAds addObject:nativeAd];
+            if ([placementAdPool count]) {
+                ZFReformedNativeAd *nativeAd = [placementAdPool objectAtIndex:0];
+                
+                if (nativeAd) {
+                    BOOL appealed = NO;
+                    for (ZFReformedNativeAd *uniqueAd in reformedNativeAds) {
+                        if ([uniqueAd.title isEqualToString:nativeAd.title]) {
+                            appealed = YES;
+                            break ;
+                        }
+                    }
+                    if (!appealed) {
+                        [reformedNativeAds addObject:nativeAd];
+                    }else {
+                        [recyclePool addObject:nativeAd];
+                    }
+                    [placementAdPool removeObjectAtIndex:0];
+                }
             }
         }
+        
+        [placementAdPool addObjectsFromArray:recyclePool];
+        [self.nativeAdsPool setObject:placementAdPool forKey:placementKey];
         
         [self checkoutAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformFacebook];
         [self checkoutAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformMobvista];
         
         return [reformedNativeAds copy];
     }
+    [self checkoutAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self checkoutAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformMobvista];
     return nil;
 }
 
