@@ -23,18 +23,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="grR-ZX-7Bl">
-                    <rect key="frame" x="0.0" y="20" width="375" height="617"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="604"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LlQ-6J-96S">
-                    <rect key="frame" x="196" y="637" width="156" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LlQ-6J-96S">
+                    <rect key="frame" x="167" y="624" width="168" height="43"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                     <state key="normal" title="Refresh"/>
                     <connections>
                         <action selector="refreshButtonDidClick:" destination="-1" eventType="touchUpInside" id="aJb-Yh-TPy"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNb-y4-1gA">
-                    <rect key="frame" x="91" y="637" width="34" height="30"/>
+                    <rect key="frame" x="64" y="624" width="56" height="42"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                     <state key="normal" title="Back"/>
                     <connections>
                         <action selector="backButtonDidClick:" destination="-1" eventType="touchUpInside" id="6ki-Gx-p22"/>
@@ -43,19 +45,20 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="LlQ-6J-96S" secondAttribute="trailing" constant="23" id="0Jn-bx-30C"/>
-                <constraint firstItem="grR-ZX-7Bl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="9ce-kb-cdZ"/>
-                <constraint firstItem="LlQ-6J-96S" firstAttribute="top" secondItem="grR-ZX-7Bl" secondAttribute="bottom" id="Ggd-6G-ZDC"/>
-                <constraint firstItem="LlQ-6J-96S" firstAttribute="leading" secondItem="aNb-y4-1gA" secondAttribute="trailing" constant="71" id="Jsu-b8-tSX"/>
-                <constraint firstAttribute="trailing" secondItem="grR-ZX-7Bl" secondAttribute="trailing" id="XiL-wN-APf"/>
-                <constraint firstAttribute="bottom" secondItem="LlQ-6J-96S" secondAttribute="bottom" id="cxN-cJ-tgV"/>
-                <constraint firstItem="grR-ZX-7Bl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dOW-B2-QKf"/>
-                <constraint firstItem="LlQ-6J-96S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="196" id="oqx-iX-dwC"/>
-                <constraint firstItem="aNb-y4-1gA" firstAttribute="baseline" secondItem="LlQ-6J-96S" secondAttribute="baseline" id="tXx-jH-Cre"/>
-                <constraint firstAttribute="trailing" secondItem="LlQ-6J-96S" secondAttribute="trailing" constant="23" id="v4H-2b-ezg"/>
-                <constraint firstItem="LlQ-6J-96S" firstAttribute="top" secondItem="grR-ZX-7Bl" secondAttribute="bottom" id="y3t-cl-Xpk"/>
+                <constraint firstItem="LlQ-6J-96S" firstAttribute="leading" secondItem="aNb-y4-1gA" secondAttribute="trailing" constant="47" id="9h0-fC-pK8"/>
+                <constraint firstItem="aNb-y4-1gA" firstAttribute="top" secondItem="grR-ZX-7Bl" secondAttribute="bottom" id="BmU-6W-CSJ"/>
+                <constraint firstItem="LlQ-6J-96S" firstAttribute="top" secondItem="grR-ZX-7Bl" secondAttribute="bottom" id="QRT-XO-Qsq"/>
+                <constraint firstItem="LlQ-6J-96S" firstAttribute="leading" secondItem="aNb-y4-1gA" secondAttribute="trailing" constant="47" id="Qh2-mf-BKy"/>
+                <constraint firstAttribute="trailing" secondItem="LlQ-6J-96S" secondAttribute="trailing" constant="40" id="R84-34-bsg"/>
+                <constraint firstItem="grR-ZX-7Bl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RxW-1A-Sjj"/>
+                <constraint firstItem="grR-ZX-7Bl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="UL6-J8-rhE"/>
+                <constraint firstAttribute="trailing" secondItem="grR-ZX-7Bl" secondAttribute="trailing" id="huJ-lb-Tz8"/>
+                <constraint firstAttribute="bottom" secondItem="aNb-y4-1gA" secondAttribute="bottom" constant="1" id="kcG-gX-PZu"/>
+                <constraint firstAttribute="bottom" secondItem="LlQ-6J-96S" secondAttribute="bottom" id="mKi-8i-yMK"/>
+                <constraint firstItem="aNb-y4-1gA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="64" id="skH-4b-w1y"/>
+                <constraint firstItem="aNb-y4-1gA" firstAttribute="top" secondItem="grR-ZX-7Bl" secondAttribute="bottom" id="sx7-4U-1fG"/>
             </constraints>
-            <point key="canvasLocation" x="33" y="54"/>
+            <point key="canvasLocation" x="32.5" y="53.5"/>
         </view>
     </objects>
 </document>
