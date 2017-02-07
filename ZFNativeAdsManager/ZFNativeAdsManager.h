@@ -73,6 +73,10 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  */
 - (void)setPriority:(NSArray<NSNumber *> *)priorityArray;
 
+
+
+- (void)setCapacity:(NSUInteger)capacity forPlacement:(NSString *)placementKey;
+
 /**
  
  Preload the ads for certain placement. This may improve the experience for showing native ads. But this will reduce the impression ratio.
@@ -92,6 +96,8 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  @return loaded native ads.
  */
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey;
+
+- (NSArray<ZFReformedNativeAd *> *)fetchPreloadAdForPlacement:(NSString *)placementKey count:(NSUInteger)count;
 
 /**
  
