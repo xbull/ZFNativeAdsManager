@@ -11,6 +11,7 @@
 #import "ZFNativeAdsManager.h"
 #import "JSInterstitialAdsManager.h"
 #import "DPFeedViewController.h"
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 @interface ZFViewController () <ZFNativeAdsManagerDelegate>
 
@@ -155,11 +156,14 @@
     
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook)]];
     
-//    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
+    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
     [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
     [[ZFNativeAdsManager sharedInstance] preloadAppWall:@"1498"];
     
     [[JSInterstitialAdsManager sharedInstance] startWithAdUnitId:@"ca-app-pub-3940256099942544/4411468910"];
+    
+    [FBAdSettings addTestDevice:[FBAdSettings testDeviceHash]];
+    
 }
 
 #pragma mark - <ZFNativeAdsManagerDelegate>
