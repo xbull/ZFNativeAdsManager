@@ -49,6 +49,8 @@
 		A78CA9481E135CC700E35A36 /* MVSDKAppWall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78CA9471E135CC700E35A36 /* MVSDKAppWall.framework */; };
 		A7C296351DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C296301DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m */; };
 		A7C296361DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C296321DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m */; };
+		F40C91ED1E499EA0003E3084 /* DPFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F40C91EB1E499EA0003E3084 /* DPFeedViewController.m */; };
+		F40C91EE1E499EA0003E3084 /* DPFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F40C91EC1E499EA0003E3084 /* DPFeedViewController.xib */; };
 		F4A18AC81E24EF4B00630360 /* NSObject+DPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18AC51E24EF4B00630360 /* NSObject+DPExtension.m */; };
 		F4A18AC91E24EF4B00630360 /* UIApplication+URLOpenning.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18AC71E24EF4B00630360 /* UIApplication+URLOpenning.m */; };
 		F4A18ACC1E24FC4A00630360 /* UIViewController+DPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A18ACB1E24FC4A00630360 /* UIViewController+DPExtension.m */; };
@@ -125,6 +127,9 @@
 		A7C296301DFD3F1100E34C57 /* ZFMobvistaNativeAdObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMobvistaNativeAdObserver.m; sourceTree = "<group>"; };
 		A7C296311DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFMobvistaNativeAdsManager.h; sourceTree = "<group>"; };
 		A7C296321DFD3F1100E34C57 /* ZFMobvistaNativeAdsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFMobvistaNativeAdsManager.m; sourceTree = "<group>"; };
+		F40C91EA1E499EA0003E3084 /* DPFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPFeedViewController.h; sourceTree = "<group>"; };
+		F40C91EB1E499EA0003E3084 /* DPFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPFeedViewController.m; sourceTree = "<group>"; };
+		F40C91EC1E499EA0003E3084 /* DPFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPFeedViewController.xib; sourceTree = "<group>"; };
 		F4A18AC41E24EF4B00630360 /* NSObject+DPExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DPExtension.h"; sourceTree = "<group>"; };
 		F4A18AC51E24EF4B00630360 /* NSObject+DPExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DPExtension.m"; sourceTree = "<group>"; };
 		F4A18AC61E24EF4B00630360 /* UIApplication+URLOpenning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+URLOpenning.h"; sourceTree = "<group>"; };
@@ -220,6 +225,9 @@
 				A71BB21C1DF6657200884059 /* AppDelegate.m */,
 				A71BB21E1DF6657200884059 /* ZFViewController.h */,
 				A71BB21F1DF6657200884059 /* ZFViewController.m */,
+				F40C91EA1E499EA0003E3084 /* DPFeedViewController.h */,
+				F40C91EB1E499EA0003E3084 /* DPFeedViewController.m */,
+				F40C91EC1E499EA0003E3084 /* DPFeedViewController.xib */,
 				F4A2C33C1E2640E100A429A8 /* Launch Screen.storyboard */,
 				A71BB2241DF6657200884059 /* Assets.xcassets */,
 				A71BB2291DF6657200884059 /* Info.plist */,
@@ -498,6 +506,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40C91EE1E499EA0003E3084 /* DPFeedViewController.xib in Resources */,
 				F4A2C33D1E2640E100A429A8 /* Launch Screen.storyboard in Resources */,
 				A71BB2251DF6657200884059 /* Assets.xcassets in Resources */,
 			);
@@ -611,6 +620,7 @@
 				A77959BA1E233CC9002228CB /* ZFNativeAdsMediator+Mobvista.m in Sources */,
 				A72219551E0CD09200EE0DA1 /* Target_MVAppWall.m in Sources */,
 				A71BB23A1DF6A50F00884059 /* ZFNativeAdsMediator.m in Sources */,
+				F40C91ED1E499EA0003E3084 /* DPFeedViewController.m in Sources */,
 				96ED5B131E1CCD8E00FA8406 /* JSInterstitialAdsManager.m in Sources */,
 				A71BB2201DF6657200884059 /* ZFViewController.m in Sources */,
 				A71BB21D1DF6657200884059 /* AppDelegate.m in Sources */,

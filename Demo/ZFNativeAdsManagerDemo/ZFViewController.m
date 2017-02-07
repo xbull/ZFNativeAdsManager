@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import "ZFNativeAdsManager.h"
 #import "JSInterstitialAdsManager.h"
+#import "DPFeedViewController.h"
 
 @interface ZFViewController () <ZFNativeAdsManagerDelegate>
 
@@ -154,6 +155,7 @@
     
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook)]];
     
+//    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
     [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
     [[ZFNativeAdsManager sharedInstance] preloadAppWall:@"1498"];
     
@@ -205,8 +207,10 @@
 }
 
 - (void)showFeedAds {
-    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
-    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
+//    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
+//    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
+    DPFeedViewController *feedVC = [[DPFeedViewController alloc] init];
+    [self presentViewController:feedVC animated:YES completion:nil];
 }
 
 #pragma mark - Private methods
