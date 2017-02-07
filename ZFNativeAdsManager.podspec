@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'ZFNativeAdsManager'
-  s.version      = '1.2.9'
+  s.version      = '1.2.10'
   s.summary      = 'ZFNativeAdsManager integrates and dispatches mainstream leading native ads platform.'
   s.homepage     = 'https://github.com/xbull/ZFNativeAdsManager'
   s.license      = 'MIT'
