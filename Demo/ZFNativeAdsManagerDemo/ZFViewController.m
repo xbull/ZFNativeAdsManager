@@ -102,7 +102,7 @@
     [self.view addSubview:self.appWallButton];
     [self.appWallButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).with.offset(10);
-        make.bottom.equalTo(self.view).multipliedBy(0.95);
+        make.top.equalTo(self.loadLabel.mas_bottom).with.offset(10);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(40);
     }];
@@ -111,7 +111,7 @@
     [self.loadButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.appWallButton.mas_right).with.offset(20);
         make.right.equalTo(self.view).with.offset(-10);
-        make.bottom.equalTo(self.view).multipliedBy(0.95);
+        make.top.equalTo(self.appWallButton);
         make.height.mas_equalTo(40);
     }];
     
