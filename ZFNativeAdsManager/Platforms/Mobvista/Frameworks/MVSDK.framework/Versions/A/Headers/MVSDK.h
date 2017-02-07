@@ -5,7 +5,7 @@
 //  Created by Jomy on 15/9/28.
 //
 
-#define MVSDKVersion @"1.5.2"
+#define MVSDKVersion @"1.5.4"
 
 
 #import <Foundation/Foundation.h>

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'ZFNativeAdsManager'
-  s.version      = '1.2.8'
+  s.version      = '1.2.9'
   s.summary      = 'ZFNativeAdsManager integrates and dispatches mainstream leading native ads platform.'
   s.homepage     = 'https://github.com/xbull/ZFNativeAdsManager'
   s.license      = 'MIT'
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
   s.subspec 'Facebook' do |ss|
 
     ss.dependency 'ZFNativeAdsManager/NativeCore'
-    ss.dependency 'FBAudienceNetwork', '~> 4.18.0'
+    ss.dependency 'FBAudienceNetwork', '~> 4.19.0'
     ss.source_files = 'ZFNativeAdsManager/Platforms/Facebook/*.{h,m}', 'ZFNativeAdsManager/Platforms/Facebook/Action/*.{h,m}'
 
   end   
@@ -68,8 +68,8 @@ Pod::Spec.new do |s|
   s.subspec 'AdmobInterstitial' do |ss|
 
     ss.dependency 'ZFNativeAdsManager/InterstitialCore'
-    ss.dependency 'Firebase/Core', '~> 3.11.0'
-    ss.dependency 'Firebase/AdMob', '~> 3.11.0'
+    ss.dependency 'Firebase/Core', '~> 3.12.0'
+    ss.dependency 'Firebase/AdMob', '~> 3.12.0'
     ss.source_files = 'ZFNativeAdsManager/Platforms/Admob/*.{h,m}', 'ZFNativeAdsManager/Platforms/Admob/Action/*.{h,m}'
 
   end   
