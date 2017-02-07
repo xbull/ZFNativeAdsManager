@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) UIButton *interstitialButton;
 
+@property (nonatomic, strong) UIButton *feedAdsButton;
+
 @property (nonatomic, strong) UIView *adChoiceContainingView;
 
 @end
@@ -122,6 +124,14 @@
         make.left.equalTo(self.appWallButton);
         make.width.equalTo(self.appWallButton).multipliedBy(2);
     }];
+    
+    [self.view addSubview:self.feedAdsButton];
+    [self.feedAdsButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.appWallButton.mas_bottom).offset(5);
+        make.height.equalTo(self.appWallButton);
+        make.left.equalTo(self.interstitialButton.mas_right).with.offset(10);
+        make.right.equalTo(self.view).with.offset(-10);
+    }];
 }
 
 - (void)configureAdsInfo {
@@ -190,6 +200,13 @@
     } else {
         [[JSInterstitialAdsManager sharedInstance] showFromViewController:self];
     }
+//    NSArray *array = [[ZFNativeAdsManager sharedInstance] fetchPreloadAdForPlacement:@"preload" count:5];
+//    NSLog(@">>>>>>>>>>>%@", array);
+}
+
+- (void)showFeedAds {
+    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
+    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
 }
 
 #pragma mark - Private methods
@@ -318,5 +335,19 @@
     }
     return _interstitialButton;
 }
+
+- (UIButton *)feedAdsButton {
+    if (!_feedAdsButton) {
+        _feedAdsButton = [[UIButton alloc] init];
+        [_feedAdsButton setTitle:@"feedAds" forState:UIControlStateNormal];
+        [_feedAdsButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        [_feedAdsButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+        _feedAdsButton.backgroundColor = [UIColor lightGrayColor];
+        [_feedAdsButton addTarget:self action:@selector(showFeedAds) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _feedAdsButton;
+}
+
+
 
 @end
