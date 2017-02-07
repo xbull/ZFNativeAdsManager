@@ -36,7 +36,6 @@
 }
 
 - (IBAction)refreshButtonDidClick:(UIButton *)sender {
-    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
     [self.tableView reloadData];
 }
 
