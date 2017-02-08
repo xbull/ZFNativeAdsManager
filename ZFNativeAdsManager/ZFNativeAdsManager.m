@@ -395,7 +395,7 @@ static const NSString *DPNativeAdsKey;
     if (adCount < [[self.capacityDic objectForKey:placementKey] integerValue]) {
         return NO;
     }
-    return NO;
+    return YES;
 }
 
 - (void)recordErrorOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
