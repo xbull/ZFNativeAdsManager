@@ -95,6 +95,17 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
 
 /**
  
+ Preload the ads for certain placement. This may improve the experience for showing native ads. But this will reduce the impression ratio.
+ 
+ @param placementKey setting by method [configurePlacementInfo:platform]
+ @param loadImageOption indicates the resource that native ads need to load.
+ @param capacity : the capacity of the certain placement.
+ You can set multiple options.(e.g. ZFNativeAdsLoadImageOptionIcon | ZFNativeAdsLoadImageCover)
+ */
+- (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption capacity:(NSUInteger)capacity;
+
+/**
+ 
  Fetch native ad instantly for certain placement.
  This will return nil if you don't preload ads for the corresponding placement.
 

@@ -115,8 +115,14 @@ static const NSString *DPNativeAdsKey;
     
     [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
     [self.loadImageOptionDic setObject:@(loadImageOption) forKey:placementKey];
-    [self clearErrorForPlace:placementKey platform:ZFNativeAdsPlatformMobvista];
-    [self clearErrorForPlace:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self clearErrorForPlace:placementKey];
+}
+
+- (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption capacity:(NSUInteger)capacity {
+    [self setCapacity:capacity forPlacement:placementKey];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
+    [self.loadImageOptionDic setObject:@(loadImageOption) forKey:placementKey];
+    [self clearErrorForPlace:placementKey];
 }
 
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey {
@@ -401,6 +407,11 @@ static const NSString *DPNativeAdsKey;
     NSInteger count = [[placeAdErrorDic objectForKey:@(platform)] integerValue];
     [placeAdErrorDic setObject:@(count + 1) forKey:@(platform)];
     [self.errorInfoDic setObject:placeAdErrorDic forKey:placementKey];
+}
+
+- (void)clearErrorForPlace:(NSString *)placementKey {
+    [self clearErrorForPlace:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self clearErrorForPlace:placementKey platform:ZFNativeAdsPlatformMobvista];
 }
 
 - (void)clearErrorForPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
