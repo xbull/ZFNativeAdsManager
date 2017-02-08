@@ -67,9 +67,9 @@ static const NSString *DPNativeAdsKey;
     
     for (NSString *key in placementInfo) {
         if (![self.nativeAdsPool objectForKey:key]) {
+            [self.capacityDic setObject:@(1) forKey:key];
             NSMutableArray *placementAdPool = [NSMutableArray arrayWithCapacity:ZFNativeAdsPlatformCount * [[self.capacityDic objectForKey:key] integerValue]];
             [self.nativeAdsPool setObject:placementAdPool forKey:key];
-            [self.capacityDic setObject:@(1) forKey:key];
         }
     }
     
