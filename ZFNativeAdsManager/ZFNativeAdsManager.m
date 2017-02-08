@@ -113,16 +113,16 @@ static const NSString *DPNativeAdsKey;
 
 - (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption {
     
+    [self clearErrorForPlace:placementKey];
     [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
     [self.loadImageOptionDic setObject:@(loadImageOption) forKey:placementKey];
-    [self clearErrorForPlace:placementKey];
 }
 
 - (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption capacity:(NSUInteger)capacity {
+    [self clearErrorForPlace:placementKey];
     [self setCapacity:capacity forPlacement:placementKey];
     [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
     [self.loadImageOptionDic setObject:@(loadImageOption) forKey:placementKey];
-    [self clearErrorForPlace:placementKey];
 }
 
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey {
