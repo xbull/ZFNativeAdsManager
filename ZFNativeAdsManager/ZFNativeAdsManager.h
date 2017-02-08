@@ -73,8 +73,14 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  */
 - (void)setPriority:(NSArray<NSNumber *> *)priorityArray;
 
-
-
+/**
+ 
+ Set the capacity for certain placement, if you don't call this method the default capacity is one.
+ 
+ @param capacity : the capacity of the certain placement.
+ @param placementKey : setting by method [configurePlacementInfo:platform]
+ 
+ */
 - (void)setCapacity:(NSUInteger)capacity forPlacement:(NSString *)placementKey;
 
 /**
@@ -93,10 +99,19 @@ typedef void (^ZFReformedAdFetchBlock)(ZFReformedNativeAd *reformedAd);
  This will return nil if you don't preload ads for the corresponding placement.
 
  @param placementKey setting by method [configurePlacementInfo:platform]
- @return loaded native ads.
+ @return loaded native ad.
  */
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey;
 
+/**
+ 
+ Fetch a batch of native ads instantly for certain placement.
+ This will return an empty array if there is not available ad.
+ 
+ @param placementKey setting by method [configurePlacementInfo:platform]
+ @param count the ads count you want at one time
+ @return loaded native ads, the ads count may less than the parameter count you input.
+ */
 - (NSArray<ZFReformedNativeAd *> *)fetchPreloadAdForPlacement:(NSString *)placementKey count:(NSUInteger)count;
 
 /**
