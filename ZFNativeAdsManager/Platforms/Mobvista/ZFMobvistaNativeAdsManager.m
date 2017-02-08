@@ -92,6 +92,14 @@ static const char MVAdPlacementKey;
     
     [self.loadImageIndicator setObject:@(loadImageOption) forKey:placementKey];
     
+    NSMutableSet<ZFReformedNativeAd *> *reformedAdsPool = [self.reformedAdsCachePool objectForKey:placementKey];
+    if (reformedAdsPool.count > 0) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
+            [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformMobvista placement:placementKey];
+        }
+        return ;
+    }
+    
     if (self.placementInfo && [self.placementInfo objectForKey:placementKey]) {
         [self loadAdsForPlacement:placementKey];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Start loading ads for placement:%@", placementKey]];
@@ -124,9 +132,9 @@ static const char MVAdPlacementKey;
         [self loadAdsForPlacement:placementKey];
     }
     
-    if (reformedAdsPool.count == 0 && self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
-        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
-    }
+//    if (reformedAdsPool.count == 0 && self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
+//        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
+//    }
     
     return reformedAd;
 }
@@ -242,6 +250,10 @@ static const char MVAdPlacementKey;
 
 - (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads load failed:%@ for placement:%@", error, placementKey]];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidFail:placement:error:)]) {
+        [self.delegate nativeAdDidFail:ZFNativeAdsPlatformMobvista placement:placementKey error:error];
+    }
 }
 
 - (void)nativeAdDidClick:(nonnull MVCampaign *)nativeAd placement:(NSString *)placementKey {
