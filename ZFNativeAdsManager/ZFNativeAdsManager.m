@@ -137,8 +137,7 @@ static const NSString *DPNativeAdsKey;
         
         return nativeAd;
     }
-    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
-    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
+    [self fillUpAdPoolIfNecessary:placementKey];
 
     return nil;
 }
@@ -177,13 +176,11 @@ static const NSString *DPNativeAdsKey;
         
         [self.nativeAdsPool setObject:newPlacementAdPool forKey:placementKey];
         
-        [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
-        [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
+        [self fillUpAdPoolIfNecessary:placementKey];
         
         return [reformedNativeAds copy];
     }
-    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
-    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
+    [self fillUpAdPoolIfNecessary:placementKey];
     return [NSArray array];
 }
 
@@ -352,6 +349,11 @@ static const NSString *DPNativeAdsKey;
         }
     }];
     return count;
+}
+
+- (void)fillUpAdPoolIfNecessary:(NSString *)placementKey {
+    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
 }
 
 - (void)fillUpAdPoolIfNecessary:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
