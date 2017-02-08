@@ -162,17 +162,18 @@ static const NSString *DPNativeAdsKey;
                 ZFReformedNativeAd *nativeAd = [placementAdPool objectAtIndex:0];
                 
                 if (nativeAd) {
-                    BOOL appealed = NO;
+                    BOOL appear = NO;
                     for (ZFReformedNativeAd *uniqueAd in reformedNativeAds) {
                         if ([uniqueAd.title isEqualToString:nativeAd.title]) {
-                            appealed = YES;
+                            appear = YES;
                             break ;
                         }
                     }
-                    if (!appealed) {
+                    if (!appear) {
                         [reformedNativeAds addObject:nativeAd];
                     }else {
                         [recyclePool addObject:nativeAd];
+                        i--;
                     }
                     [placementAdPool removeObjectAtIndex:0];
                 }
