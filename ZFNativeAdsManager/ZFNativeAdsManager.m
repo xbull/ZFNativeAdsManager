@@ -156,32 +156,26 @@ static const NSString *DPNativeAdsKey;
         NSUInteger fetchedCount = (count < placementAdPool.count) ? count : placementAdPool.count;
         NSMutableArray *reformedNativeAds = [NSMutableArray arrayWithCapacity:fetchedCount];
         
-        NSMutableArray *recyclePool = [NSMutableArray array];
-        for (int i = 0; i < fetchedCount; i++) {
-            if ([placementAdPool count]) {
-                ZFReformedNativeAd *nativeAd = [placementAdPool objectAtIndex:0];
-                
-                if (nativeAd) {
-                    BOOL appear = NO;
-                    for (ZFReformedNativeAd *uniqueAd in reformedNativeAds) {
-                        if ([uniqueAd.title isEqualToString:nativeAd.title]) {
-                            appear = YES;
-                            break ;
-                        }
-                    }
-                    if (!appear) {
-                        [reformedNativeAds addObject:nativeAd];
-                    }else {
-                        [recyclePool addObject:nativeAd];
-                        i--;
-                    }
-                    [placementAdPool removeObjectAtIndex:0];
+        NSMutableArray<ZFReformedNativeAd *> *newPlacementAdPool = [NSMutableArray arrayWithArray:placementAdPool];
+        
+        for (ZFReformedNativeAd *nativeAd in placementAdPool) {
+            BOOL appear = NO;
+            for (ZFReformedNativeAd *uniqueAd in reformedNativeAds) {
+                if ([uniqueAd.title isEqualToString:nativeAd.title]) {
+                    appear = YES;
+                    break ;
                 }
+            }
+            if (!appear) {
+                [reformedNativeAds addObject:nativeAd];
+                [newPlacementAdPool removeObject:nativeAd];
+            }
+            if (reformedNativeAds.count >= fetchedCount) {
+                break ;
             }
         }
         
-        [placementAdPool addObjectsFromArray:recyclePool];
-        [self.nativeAdsPool setObject:placementAdPool forKey:placementKey];
+        [self.nativeAdsPool setObject:newPlacementAdPool forKey:placementKey];
         
         [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
         [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
@@ -190,7 +184,7 @@ static const NSString *DPNativeAdsKey;
     }
     [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
     [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
-    return nil;
+    return [NSArray array];
 }
 
 - (void)fetchAdForPlacement:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption fetchBlock:(ZFReformedAdFetchBlock)fetchblock {
