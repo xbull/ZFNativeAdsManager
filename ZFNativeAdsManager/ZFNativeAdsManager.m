@@ -362,26 +362,24 @@ static const NSString *DPNativeAdsKey;
 
 - (void)checkoutAdPoolOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
     
-    NSMutableOrderedSet *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
-    NSUInteger adCount = [self countOfAd:platform inPool:placementAdPool];
-    if (adCount < [[self.capacityDic objectForKey:placementKey] integerValue]) {
+    if (![self isFullInAdPoolOfPlace:placementKey platform:platform]) {
         
         NSNumber *loadImageOption = [self.loadImageOptionDic objectForKey:placementKey];
         
         if (!loadImageOption) {
             loadImageOption = @(ZFNativeAdsLoadImageOptionNone);
         }
-        
         [self loadNativeAds:placementKey loadImageOption:loadImageOption.integerValue preload:YES];
     }
 }
 
 - (void)saveAdToPoolOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
-    NSMutableOrderedSet *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
-    NSUInteger adCount = [self countOfAd:platform inPool:placementAdPool];
-    if (adCount < [[self.capacityDic objectForKey:placementKey] integerValue]) {
+    
+    if (![self isFullInAdPoolOfPlace:placementKey platform:platform]) {
         
+        NSMutableOrderedSet *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
         ZFReformedNativeAd *reformedAd = [self fetchAdFromPlatform:platform placement:placementKey];
+        
         if (reformedAd) {
             [placementAdPool addObject:reformedAd];
             [self.nativeAdsPool setObject:placementAdPool forKey:placementKey];
