@@ -175,8 +175,6 @@ static const char FBReformAdKey;
                     [self printDebugLog:@"【ZFFBNativeAdsManager】reformed ad load cover image error."];
                 }
             }];
-            
-            return;
         }
         
         if (loadImageOption & ZFNativeAdsLoadImageOptionIcon) {
