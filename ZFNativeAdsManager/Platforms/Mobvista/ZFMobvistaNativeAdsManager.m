@@ -13,6 +13,7 @@
 #import <StoreKit/StoreKit.h>
 #import "UIViewController+DPExtension.h"
 #import "UIApplication+URLOpenning.h"
+#import "NSMutableDictionary+DPExtension.h"
 
 #define MV_NATIVE_ADS_REQUEST_ONCE_COUNT        10
 #define MV_NATIVE_ADS_POOL_REFILL_THRESHOLD     5
@@ -61,7 +62,7 @@ static const char MVAdPlacementKey;
     for (NSString *key in placementInfo) {
         
         NSMutableSet<ZFReformedNativeAd *> *reformedAdsPlacementCachePool = [NSMutableSet<ZFReformedNativeAd *> set];
-        [self.reformedAdsCachePool setObject:reformedAdsPlacementCachePool forKey:key];
+        [self.reformedAdsCachePool safeSetObject:reformedAdsPlacementCachePool forKey:key];
         
         MVTemplate *template = [MVTemplate templateWithType:MVAD_TEMPLATE_BIG_IMAGE adsNum:MV_NATIVE_ADS_REQUEST_ONCE_COUNT];
         
@@ -84,13 +85,21 @@ static const char MVAdPlacementKey;
         manager.delegate = observer;
         observer.delegate = self;
         
-        [self.placementAdsManager setObject:manager forKey:key];
+        [self.placementAdsManager safeSetObject:manager forKey:key];
     }
 }
 
 - (void)loadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption {
     
-    [self.loadImageIndicator setObject:@(loadImageOption) forKey:placementKey];
+    [self.loadImageIndicator safeSetObject:@(loadImageOption) forKey:placementKey];
+    
+    NSMutableSet<ZFReformedNativeAd *> *reformedAdsPool = [self.reformedAdsCachePool objectForKey:placementKey];
+    if (reformedAdsPool.count > 0) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
+            [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformMobvista placement:placementKey];
+        }
+        return ;
+    }
     
     if (self.placementInfo && [self.placementInfo objectForKey:placementKey]) {
         [self loadAdsForPlacement:placementKey];
@@ -114,7 +123,7 @@ static const char MVAdPlacementKey;
             [reformedAdsPool removeObject:reformedAd];
         }
         if (reformedAdsPool) {
-            [self.reformedAdsCachePool setObject:reformedAdsPool forKey:placementKey];
+            [self.reformedAdsCachePool safeSetObject:reformedAdsPool forKey:placementKey];
         } else {
             [self.reformedAdsCachePool removeObjectForKey:placementKey];
         }
@@ -124,9 +133,9 @@ static const char MVAdPlacementKey;
         [self loadAdsForPlacement:placementKey];
     }
     
-    if (reformedAdsPool.count == 0 && self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
-        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
-    }
+//    if (reformedAdsPool.count == 0 && self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
+//        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformMobvista placement:placementKey];
+//    }
     
     return reformedAd;
 }
@@ -240,6 +249,10 @@ static const char MVAdPlacementKey;
 
 - (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads load failed:%@ for placement:%@", error, placementKey]];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidFail:placement:error:)]) {
+        [self.delegate nativeAdDidFail:ZFNativeAdsPlatformMobvista placement:placementKey error:error];
+    }
 }
 
 - (void)nativeAdDidClick:(nonnull MVCampaign *)nativeAd placement:(NSString *)placementKey {
