@@ -28,6 +28,7 @@
     self.tableView.dataSource = self;
     self.tableView.rowHeight = 200;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"feed"];
+    self.feedAds = [[ZFNativeAdsManager sharedInstance] fetchPreloadAdForPlacement:@"preload" count:5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,6 +37,7 @@
 }
 
 - (IBAction)refreshButtonDidClick:(UIButton *)sender {
+    self.feedAds = [[ZFNativeAdsManager sharedInstance] fetchPreloadAdForPlacement:@"preload" count:5];
     [self.tableView reloadData];
 }
 
@@ -50,7 +52,6 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    self.feedAds = [[ZFNativeAdsManager sharedInstance] fetchPreloadAdForPlacement:@"preload" count:5];
     return self.feedAds.count;
 }
 
@@ -61,6 +62,9 @@
     imageView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200);
     [cell.contentView addSubview:imageView];
     imageView.userInteractionEnabled = YES;
+    UIImageView *iconImageView = [[UIImageView alloc] initWithImage:self.feedAds[indexPath.item].iconImage];
+    iconImageView.frame = CGRectMake(0, 0, 100, 100);
+    [imageView addSubview:iconImageView];
     [[ZFNativeAdsManager sharedInstance] registAdForInteraction:self.feedAds[indexPath.item] view:imageView];
     return cell;
 }
