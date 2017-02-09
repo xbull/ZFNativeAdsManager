@@ -185,7 +185,7 @@ static const char MVAdPlacementKey;
             continue;
         }
         
-        if (loadImageOption == ZFNativeAdsLoadImageOptionCover) {
+        if (loadImageOption & ZFNativeAdsLoadImageOptionCover) {
             
             __weak typeof(self) weakSelf = self;
             [campaign loadImageUrlAsyncWithBlock:^(UIImage *image) {
@@ -208,11 +208,9 @@ static const char MVAdPlacementKey;
                     [self printDebugLog:@"【ZFMobvistaNativeAdsManager】reformed ad image cover load error!"];
                 }
             }];
-            
-            continue;
         }
         
-        if (loadImageOption == ZFNativeAdsLoadImageOptionIcon) {
+        if (loadImageOption & ZFNativeAdsLoadImageOptionIcon) {
             
             __weak typeof(self) weakSelf = self;
             [campaign loadIconUrlAsyncWithBlock:^(UIImage *image) {
