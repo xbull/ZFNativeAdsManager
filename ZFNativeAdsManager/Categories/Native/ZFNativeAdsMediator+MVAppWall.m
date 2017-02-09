@@ -7,6 +7,7 @@
 //
 
 #import "ZFNativeAdsMediator+MVAppWall.h"
+#import "NSMutableDictionary+DPExtension.h"
 
 NSString *const kZFNativeAdsMediatorTargetMVAppWall = @"MVAppWall";
 
@@ -21,11 +22,11 @@ NSString *const kZFNativeAdsMediatorActionShowMVAppWall = @"showAppWall";
     
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionary];
     if (unitId) {
-        [paramsDict setObject:unitId forKey:@"unitId"];
+        [paramsDict safeSetObject:unitId forKey:@"unitId"];
     }
     
     if (navigationController) {
-        [paramsDict setObject:navigationController forKey:@"navigationController"];
+        [paramsDict safeSetObject:navigationController forKey:@"navigationController"];
     }
     
     [self performTarget:kZFNativeAdsMediatorTargetMVAppWall

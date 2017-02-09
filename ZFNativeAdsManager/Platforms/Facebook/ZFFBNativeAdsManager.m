@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <FBAudienceNetwork/FBNativeAd.h>
 #import <FBAudienceNetwork/FBAdChoicesView.h>
+#import "NSMutableDictionary+DPExtension.h"
 
 static const char FBReformAdKey;
 
@@ -46,11 +47,11 @@ static const char FBReformAdKey;
 - (void)loadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption preload:(BOOL)preload {
     
     if (preload) {
-        [self.preloadIndicator setObject:@(YES) forKey:placementKey];
+        [self.preloadIndicator safeSetObject:@(YES) forKey:placementKey];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFFBNativeAdsManager】start preloading ads with placement id:%@", placementKey]];
     }
     
-    [self.loadImageIndicator setObject:@(loadImageOption) forKey:placementKey];
+    [self.loadImageIndicator safeSetObject:@(loadImageOption) forKey:placementKey];
     
     if ([self.cachedAdDictionary objectForKey:placementKey]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
