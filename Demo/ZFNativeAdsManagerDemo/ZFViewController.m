@@ -157,7 +157,7 @@
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook)]];
     
     [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
-    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
+    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionIcon | ZFNativeAdsLoadImageOptionCover];
     [[ZFNativeAdsManager sharedInstance] preloadAppWall:@"1498"];
     
     [[JSInterstitialAdsManager sharedInstance] startWithAdUnitId:@"ca-app-pub-3940256099942544/4411468910"];
