@@ -8,10 +8,16 @@
 
 #import "NSMutableDictionary+DPExtension.h"
 
-@implementation NSMutableDictionary (DPExtension)
+@implementation NSMutableDictionary (safe)
 
 - (void)safeSetObject:(id)anObject forKey:(id<NSCopying>)aKey {
-    if (anObject && aKey) {
+    if (!aKey) {
+        return ;
+    }
+    if (!anObject) {
+        [self removeObjectForKey:aKey];
+    }
+    else {
         [self setObject:anObject forKey:aKey];
     }
 }

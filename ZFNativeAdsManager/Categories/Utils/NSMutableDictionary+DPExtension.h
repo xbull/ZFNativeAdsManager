@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSMutableDictionary (DPExtension)
+@interface NSMutableDictionary (safe)
 
 - (void)safeSetObject:(id)anObject forKey:(id<NSCopying>)aKey;
 
