@@ -298,20 +298,35 @@ static const NSString *DPNativeAdsKey;
 }
 
 #pragma mark - Private methods
+
 - (void)loadNativeAdsIfNecessary:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption preload:(BOOL)preload {
     
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption platform:ZFNativeAdsPlatformFacebook preload:preload];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption platform:ZFNativeAdsPlatformMobvista preload:preload];
+}
+
+- (void)loadNativeAdsIfNecessary:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption platform:(ZFNativeAdsPlatform)platform preload:(BOOL)preload {
     
-    if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformFacebook] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
-        if (![self isFullInAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformFacebook]) {
-            [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadFacebookNativeAds:placementKey loadImageOption:loadImageOption preload:preload];
-        }
+    switch (platform) {
+        case ZFNativeAdsPlatformFacebook:
+            if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformFacebook] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
+                if (![self isFullInAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformFacebook]) {
+                    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadFacebookNativeAds:placementKey loadImageOption:loadImageOption preload:preload];
+                }
+            }
+            break;
+        case ZFNativeAdsPlatformMobvista:
+            if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformMobvista] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
+                if (![self isFullInAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformMobvista]) {
+                    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadMobvistaNativeAds:placementKey loadImageOption:loadImageOption];
+                }
+            }
+            break;
+            
+        default:
+            break;
     }
     
-    if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformMobvista] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
-        if (![self isFullInAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformMobvista]) {
-            [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadMobvistaNativeAds:placementKey loadImageOption:loadImageOption];
-        }
-    }
 }
 
 - (ZFReformedNativeAd *)fetchAdFromPlatform:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey {
@@ -370,7 +385,7 @@ static const NSString *DPNativeAdsKey;
     if (!loadImageOption) {
         loadImageOption = @(ZFNativeAdsLoadImageOptionNone);
     }
-    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption.integerValue preload:YES];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption.integerValue platform:platform preload:YES];
 }
 
 - (void)saveAdToPoolOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
