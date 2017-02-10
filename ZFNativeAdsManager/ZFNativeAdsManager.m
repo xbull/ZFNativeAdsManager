@@ -120,6 +120,7 @@ static const NSString *DPNativeAdsKey;
 }
 
 - (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption capacity:(NSUInteger)capacity {
+    
     [self clearErrorForPlace:placementKey];
     [self setCapacity:capacity forPlacement:placementKey];
     [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
@@ -128,6 +129,7 @@ static const NSString *DPNativeAdsKey;
 
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey {
     
+    [self clearErrorForPlace:placementKey];
     NSMutableArray<ZFReformedNativeAd *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
     if (placementAdPool && placementAdPool.count > 0) {
         [placementAdPool sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
@@ -150,6 +152,8 @@ static const NSString *DPNativeAdsKey;
 }
 
 - (NSArray<ZFReformedNativeAd *> *)fetchPreloadAdForPlacement:(NSString *)placementKey count:(NSUInteger)count {
+    
+    [self clearErrorForPlace:placementKey];
     NSMutableArray<ZFReformedNativeAd *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
     if (placementAdPool && placementAdPool.count > 0) {
         [placementAdPool sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
