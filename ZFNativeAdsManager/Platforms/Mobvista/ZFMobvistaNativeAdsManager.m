@@ -20,6 +20,13 @@
 
 static const char MVReformAdKey;
 static const char MVAdPlacementKey;
+static const char MVReformAdErrorKey;
+
+typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
+    DPMobvistaStatusBusy = 0,
+    DPMobvistaStatusFree,
+    DPMobvistaStatusCount
+};
 
 @interface ZFMobvistaNativeAdsManager () <ZFMobvistaNativeAdObserverDelegate, SKStoreProductViewControllerDelegate>
 
@@ -38,6 +45,12 @@ static const char MVAdPlacementKey;
 
 @property (nonatomic, assign) BOOL refineMode;
 
+@property (nonatomic, assign) DPMobvistaStatus taskStatus;
+
+@property (nonatomic, assign) NSUInteger finishedTaskCount;
+
+@property (nonatomic, assign) NSUInteger totalTaskCount;
+
 @end
 
 @implementation ZFMobvistaNativeAdsManager
@@ -47,6 +60,7 @@ static const char MVAdPlacementKey;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[ZFMobvistaNativeAdsManager alloc] init];
+        instance.taskStatus = DPMobvistaStatusFree;
     });
     return instance;
 }
@@ -101,9 +115,16 @@ static const char MVAdPlacementKey;
         return ;
     }
     
+    if (self.taskStatus == DPMobvistaStatusBusy) {
+        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus is busy");
+        return ;
+    }
+    
     if (self.placementInfo && [self.placementInfo objectForKey:placementKey]) {
         [self loadAdsForPlacement:placementKey];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Start loading ads for placement:%@", placementKey]];
+        self.taskStatus = DPMobvistaStatusBusy;
+        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus change to busy");
     } else {
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Missing configuration for placement:%@", placementKey]];
     }
@@ -129,8 +150,11 @@ static const char MVAdPlacementKey;
         }
     }
         
-    if (reformedAdsPool.count < MV_NATIVE_ADS_POOL_REFILL_THRESHOLD) {
+    if (reformedAdsPool.count < MV_NATIVE_ADS_POOL_REFILL_THRESHOLD && self.taskStatus == DPMobvistaStatusFree) {
         [self loadAdsForPlacement:placementKey];
+        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Start loading ads for placement:%@", placementKey]];
+        self.taskStatus = DPMobvistaStatusBusy;
+        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus change to busy");
     }
     
 //    if (reformedAdsPool.count == 0 && self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
@@ -163,6 +187,9 @@ static const char MVAdPlacementKey;
     
     ZFNativeAdsLoadImageOption loadImageOption = [[self.loadImageIndicator valueForKey:placementKey] unsignedIntegerValue];
     
+    self.totalTaskCount = nativeAds.count;
+    NSLog(@"【ZFMobvistaNativeAdsManager】the total task count is %lu", (unsigned long)self.totalTaskCount);
+    
     for (MVCampaign *campaign in nativeAds) {
         
         [self.campaignRetainArray addObject:campaign];
@@ -187,6 +214,9 @@ static const char MVAdPlacementKey;
             [[self.reformedAdsCachePool objectForKey:placementKey] addObject:reformedAd];
             [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】reformed ad did cache:%@", reformedAd]];
             
+            self.finishedTaskCount++;
+            [self changeTaskStatusIfFinished];
+            
             if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
                 [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformMobvista placement:placementKey];
             }
@@ -210,11 +240,19 @@ static const char MVAdPlacementKey;
                     [[self.reformedAdsCachePool objectForKey:placementKey] addObject:reformedAd];
                     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】reformed ad did cache:%@", reformedAd]];
                     
+                    self.finishedTaskCount++;
+                    [self changeTaskStatusIfFinished];
+                    
                     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
                         [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformMobvista placement:placementKey];
                     }
                 } else {
-                    [self printDebugLog:@"【ZFMobvistaNativeAdsManager】reformed ad image cover load error!"];
+                    if (!objc_getAssociatedObject(reformedAd, &MVReformAdErrorKey)) {
+                        [self printDebugLog:@"【ZFMobvistaNativeAdsManager】reformed ad image cover load error!"];
+                        objc_setAssociatedObject(reformedAd, &MVReformAdErrorKey, @"cover image load failed", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                        self.finishedTaskCount++;
+                        [self changeTaskStatusIfFinished];
+                    }
                 }
             }];
         }
@@ -235,11 +273,19 @@ static const char MVAdPlacementKey;
                     [[self.reformedAdsCachePool objectForKey:placementKey] addObject:reformedAd];
                     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】reformed ad did cache:%@", reformedAd]];
                     
+                    self.finishedTaskCount++;
+                    [self changeTaskStatusIfFinished];
+                    
                     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
                         [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformMobvista placement:placementKey];
                     }
                 } else {
-                    [self printDebugLog:@"【ZFMobvistaNativeAdsManager】reformed ad icon cover load error!"];
+                    if (!objc_getAssociatedObject(reformedAd, &MVReformAdErrorKey)) {
+                        [self printDebugLog:@"【ZFMobvistaNativeAdsManager】reformed ad icon cover load error!"];
+                        objc_setAssociatedObject(reformedAd, &MVReformAdErrorKey, @"icon image load failed", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                        self.finishedTaskCount++;
+                        [self changeTaskStatusIfFinished];
+                    }
                 }
             }];
         }
@@ -249,6 +295,10 @@ static const char MVAdPlacementKey;
 
 - (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads load failed:%@ for placement:%@", error, placementKey]];
+    
+    self.taskStatus = DPMobvistaStatusFree;
+    self.totalTaskCount = 0;
+    self.finishedTaskCount = 0;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidFail:placement:error:)]) {
         [self.delegate nativeAdDidFail:ZFNativeAdsPlatformMobvista placement:placementKey error:error];
@@ -316,6 +366,16 @@ static const char MVAdPlacementKey;
 - (void)printDebugLog:(NSString *)debugLog {
     if (self.debugLogEnable) {
         NSLog(@"%@", debugLog);
+    }
+}
+
+- (void)changeTaskStatusIfFinished {
+    NSLog(@"【ZFMobvistaNativeAdsManager】the finished task count is %lu", (unsigned long)self.finishedTaskCount);
+    if (self.finishedTaskCount >= self.totalTaskCount) {
+        self.finishedTaskCount = 0;
+        self.totalTaskCount = 0;
+        self.taskStatus = DPMobvistaStatusFree;
+        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus change to free");
     }
 }
 
