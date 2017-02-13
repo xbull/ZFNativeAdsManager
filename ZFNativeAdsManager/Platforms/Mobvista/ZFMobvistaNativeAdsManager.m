@@ -116,7 +116,7 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
     }
     
     if (self.taskStatus == DPMobvistaStatusBusy) {
-        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus is busy");
+        [self printDebugLog:@"【ZFMobvistaNativeAdsManager】the taskStatus is busy"];
         return ;
     }
     
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
         [self loadAdsForPlacement:placementKey];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Start loading ads for placement:%@", placementKey]];
         self.taskStatus = DPMobvistaStatusBusy;
-        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus change to busy");
+        [self printDebugLog:@"【ZFMobvistaNativeAdsManager】the taskStatus change to busy"];
     } else {
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Missing configuration for placement:%@", placementKey]];
     }
@@ -154,7 +154,7 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
         [self loadAdsForPlacement:placementKey];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】Start loading ads for placement:%@", placementKey]];
         self.taskStatus = DPMobvistaStatusBusy;
-        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus change to busy");
+        [self printDebugLog:@"【ZFMobvistaNativeAdsManager】the taskStatus change to busy"];
     }
     
 //    if (reformedAdsPool.count == 0 && self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
@@ -188,7 +188,7 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
     ZFNativeAdsLoadImageOption loadImageOption = [[self.loadImageIndicator valueForKey:placementKey] unsignedIntegerValue];
     
     self.totalTaskCount = nativeAds.count;
-    NSLog(@"【ZFMobvistaNativeAdsManager】the total task count is %lu", (unsigned long)self.totalTaskCount);
+    [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the total task count is %lu", (unsigned long)self.totalTaskCount]];
     
     for (MVCampaign *campaign in nativeAds) {
         
@@ -370,12 +370,12 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
 }
 
 - (void)changeTaskStatusIfFinished {
-    NSLog(@"【ZFMobvistaNativeAdsManager】the finished task count is %lu", (unsigned long)self.finishedTaskCount);
+    [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the finished task count is %lu", (unsigned long)self.finishedTaskCount]];
     if (self.finishedTaskCount >= self.totalTaskCount) {
         self.finishedTaskCount = 0;
         self.totalTaskCount = 0;
         self.taskStatus = DPMobvistaStatusFree;
-        NSLog(@"【ZFMobvistaNativeAdsManager】the taskStatus change to free");
+        [self printDebugLog:@"【ZFMobvistaNativeAdsManager】the taskStatus change to free"];
     }
 }
 
