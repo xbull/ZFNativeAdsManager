@@ -11,8 +11,6 @@
 #import <objc/runtime.h>
 #import "ZFMobvistaNativeAdObserver.h"
 #import <StoreKit/StoreKit.h>
-#import "UIViewController+DPExtension.h"
-#import "UIApplication+URLOpenning.h"
 #import "NSMutableDictionary+DPExtension.h"
 
 #define MV_NATIVE_ADS_REQUEST_ONCE_COUNT        10
@@ -312,19 +310,6 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
         [self.delegate nativeAdDidClick:ZFNativeAdsPlatformMobvista placement:placementKey];
     }
     
-    if (self.refineMode) {
-        
-        [UIApplication disallowURLContainString:nativeAd.packageName];
-        
-        NSNumber *itunesID = @([[nativeAd.packageName stringByReplacingOccurrencesOfString:@"id" withString:@""] integerValue]);
-        
-        [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】the itunesID of clicked ad:id%@", itunesID]];
-        SKStoreProductViewController *replaceStoreVC = [[SKStoreProductViewController alloc] init];
-        replaceStoreVC.delegate = self;
-        [replaceStoreVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:itunesID} completionBlock:nil];
-        [[UIViewController topMostViewController] presentViewController:replaceStoreVC animated:YES completion:nil];
-    }
-    
 }
 
 - (void)nativeAdClickUrlWillStartToJump:(nonnull NSURL *)clickUrl placement:(nonnull NSString *)placementKey {
@@ -339,22 +324,6 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
                              error:(nullable NSError *)error
                          placement:(nonnull NSString *)placementKey {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFMobvistaNativeAdsManager】native ads did end jump to final url:%@ error:%@ for placement:%@", finalUrl, error, placementKey]];
-    
-    if (self.refineMode) {
-        if (finalUrl) {
-            NSString *urlStr = [finalUrl absoluteString];
-            
-            NSString *pattern = @"id[0-9]{1,}";
-            NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionDotMatchesLineSeparators error:nil];
-            if (urlStr) {
-                if ([reg numberOfMatchesInString:urlStr options:NSMatchingReportCompletion range:NSMakeRange(0, urlStr.length)]) {
-                    NSRange range = [reg rangeOfFirstMatchInString:urlStr options:NSMatchingReportCompletion range:NSMakeRange(0, urlStr.length)];
-                    NSString *forbidStr = [urlStr substringWithRange:range];
-                    [UIApplication disallowURLContainString:forbidStr];
-                }
-            }
-        }
-    }
 }
 
 #pragma mark - private methods
@@ -383,7 +352,6 @@ typedef NS_ENUM(NSUInteger, DPMobvistaStatus) {
 
 - (void)setDebugLogEnable:(BOOL)enable {
     _debugLogEnable = enable;
-    [UIApplication setURLOpenningDebugLogEnable:enable];
 }
 
 #pragma mark - getters
