@@ -10,6 +10,8 @@
 #import <Masonry/Masonry.h>
 #import "ZFNativeAdsManager.h"
 #import "JSInterstitialAdsManager.h"
+#import "DPFeedViewController.h"
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 @interface ZFViewController () <ZFNativeAdsManagerDelegate>
 
@@ -25,6 +27,8 @@
 @property (nonatomic, strong) UIButton *appWallButton;
 
 @property (nonatomic, strong) UIButton *interstitialButton;
+
+@property (nonatomic, strong) UIButton *feedAdsButton;
 
 @property (nonatomic, strong) UIView *adChoiceContainingView;
 
@@ -102,7 +106,7 @@
     [self.view addSubview:self.appWallButton];
     [self.appWallButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).with.offset(10);
-        make.bottom.equalTo(self.view).multipliedBy(0.95);
+        make.top.equalTo(self.loadLabel.mas_bottom).with.offset(10);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(40);
     }];
@@ -111,7 +115,7 @@
     [self.loadButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.appWallButton.mas_right).with.offset(20);
         make.right.equalTo(self.view).with.offset(-10);
-        make.bottom.equalTo(self.view).multipliedBy(0.95);
+        make.top.equalTo(self.appWallButton);
         make.height.mas_equalTo(40);
     }];
     
@@ -121,6 +125,14 @@
         make.height.equalTo(self.appWallButton);
         make.left.equalTo(self.appWallButton);
         make.width.equalTo(self.appWallButton).multipliedBy(2);
+    }];
+    
+    [self.view addSubview:self.feedAdsButton];
+    [self.feedAdsButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.appWallButton.mas_bottom).offset(5);
+        make.height.equalTo(self.appWallButton);
+        make.left.equalTo(self.interstitialButton.mas_right).with.offset(10);
+        make.right.equalTo(self.view).with.offset(-10);
     }];
 }
 
@@ -144,10 +156,14 @@
     
 //    [[ZFNativeAdsManager sharedInstance] setPriority:@[@(ZFNativeAdsPlatformFacebook)]];
     
-    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
+    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
+    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionIcon | ZFNativeAdsLoadImageOptionCover];
     [[ZFNativeAdsManager sharedInstance] preloadAppWall:@"1498"];
     
     [[JSInterstitialAdsManager sharedInstance] startWithAdUnitId:@"ca-app-pub-3940256099942544/4411468910"];
+    
+    [FBAdSettings addTestDevice:[FBAdSettings testDeviceHash]];
+    
 }
 
 #pragma mark - <ZFNativeAdsManagerDelegate>
@@ -190,6 +206,15 @@
     } else {
         [[JSInterstitialAdsManager sharedInstance] showFromViewController:self];
     }
+//    NSArray *array = [[ZFNativeAdsManager sharedInstance] fetchPreloadAdForPlacement:@"preload" count:5];
+//    NSLog(@">>>>>>>>>>>%@", array);
+}
+
+- (void)showFeedAds {
+//    [[ZFNativeAdsManager sharedInstance] setCapacity:5 forPlacement:@"preload"];
+//    [[ZFNativeAdsManager sharedInstance] preloadNativeAds:@"preload" loadImageOption:ZFNativeAdsLoadImageOptionCover];
+    DPFeedViewController *feedVC = [[DPFeedViewController alloc] init];
+    [self presentViewController:feedVC animated:YES completion:nil];
 }
 
 #pragma mark - Private methods
@@ -318,5 +343,19 @@
     }
     return _interstitialButton;
 }
+
+- (UIButton *)feedAdsButton {
+    if (!_feedAdsButton) {
+        _feedAdsButton = [[UIButton alloc] init];
+        [_feedAdsButton setTitle:@"feedAds" forState:UIControlStateNormal];
+        [_feedAdsButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        [_feedAdsButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+        _feedAdsButton.backgroundColor = [UIColor lightGrayColor];
+        [_feedAdsButton addTarget:self action:@selector(showFeedAds) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _feedAdsButton;
+}
+
+
 
 @end

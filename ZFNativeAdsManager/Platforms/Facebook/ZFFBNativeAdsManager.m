@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <FBAudienceNetwork/FBNativeAd.h>
 #import <FBAudienceNetwork/FBAdChoicesView.h>
+#import "NSMutableDictionary+DPExtension.h"
 
 static const char FBReformAdKey;
 
@@ -46,11 +47,18 @@ static const char FBReformAdKey;
 - (void)loadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption preload:(BOOL)preload {
     
     if (preload) {
-        [self.preloadIndicator setObject:@(YES) forKey:placementKey];
+        [self.preloadIndicator safeSetObject:@(YES) forKey:placementKey];
         [self printDebugLog:[NSString stringWithFormat:@"【ZFFBNativeAdsManager】start preloading ads with placement id:%@", placementKey]];
     }
     
-    [self.loadImageIndicator setObject:@(loadImageOption) forKey:placementKey];
+    [self.loadImageIndicator safeSetObject:@(loadImageOption) forKey:placementKey];
+    
+    if ([self.cachedAdDictionary objectForKey:placementKey]) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidLoad:placement:)]) {
+            [self.delegate nativeAdDidLoad:ZFNativeAdsPlatformFacebook placement:placementKey];
+        }
+        return ;
+    }
     
     if (self.placementInfo && [self.placementInfo objectForKey:placementKey]) {
         
@@ -76,9 +84,9 @@ static const char FBReformAdKey;
         [self loadNativeAds:placementKey loadImageOption:loadImageOption preload:YES];
     }
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
-        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformFacebook placement:placementKey];
-    }
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdStatusLoading:placement:)]) {
+//        [self.delegate nativeAdStatusLoading:ZFNativeAdsPlatformFacebook placement:placementKey];
+//    }
     
     return reformedAd;
 }
@@ -212,6 +220,10 @@ static const char FBReformAdKey;
 
 - (void)nativeAd:(FBNativeAd *)nativeAd didFailWithError:(NSError *)error {
     [self printDebugLog:[NSString stringWithFormat:@"【ZFFBNativeAdsManager】native ad did fail with error:%@", error]];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidFail:placement:error:)]) {
+        NSString *placementKey = [self placementKeyForPlacementId:nativeAd.placementID];
+        [self.delegate nativeAdDidFail:ZFNativeAdsPlatformFacebook placement:placementKey error:error];
+    }
 }
 
 - (void)nativeAdDidClick:(FBNativeAd *)nativeAd {

@@ -25,7 +25,9 @@ typedef NS_ENUM(NSUInteger, ZFNativeAdsLoadImageOption) {
 
 - (void)nativeAdDidLoad:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey;
 
-- (void)nativeAdStatusLoading:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey;
+//- (void)nativeAdStatusLoading:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey;
+
+- (void)nativeAdDidFail:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey error:(NSError *)error;
 
 - (void)nativeAdDidClick:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey;
 

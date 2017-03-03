@@ -10,6 +10,12 @@
 #import "ZFNativeAdsMediator+Facebook.h"
 #import "ZFNativeAdsMediator+Mobvista.h"
 #import "ZFNativeAdsMediator+MVAppWall.h"
+#import <objc/runtime.h>
+#import "NSMutableDictionary+DPExtension.h"
+
+#define DPErrorTolerate 3
+
+static const NSString *DPNativeAdsKey;
 
 @interface ZFNativeAdsManager () <ZFNativeAdsDelegate>
 
@@ -17,6 +23,9 @@
 
 @property (nonatomic, strong) NSMutableArray<NSMutableDictionary *> *infoArray;
 @property (nonatomic, strong) NSMutableDictionary *nativeAdsPool;
+@property (nonatomic, strong) NSMutableDictionary *capacityDic;
+@property (nonatomic, strong) NSMutableDictionary *loadImageOptionDic;
+@property (nonatomic, strong) NSMutableDictionary *errorInfoDic;
 
 @property (nonatomic, strong) NSMutableDictionary *reformedAdFetchBlockDictionary;
 
@@ -59,8 +68,9 @@
     
     for (NSString *key in placementInfo) {
         if (![self.nativeAdsPool objectForKey:key]) {
-            NSMutableOrderedSet *placementAdPool = [NSMutableOrderedSet orderedSetWithCapacity:ZFNativeAdsPlatformCount];
-            [self.nativeAdsPool setObject:placementAdPool forKey:key];
+            [self.capacityDic safeSetObject:@(1) forKey:key];
+            NSMutableArray *placementAdPool = [NSMutableArray arrayWithCapacity:ZFNativeAdsPlatformCount * [[self.capacityDic objectForKey:key] integerValue]];
+            [self.nativeAdsPool safeSetObject:placementAdPool forKey:key];
         }
     }
     
@@ -98,52 +108,115 @@
     NSLog(@"【ZFNativeAdsManager】 indicator:%@", self.priorityIndicator);
 }
 
+- (void)setCapacity:(NSUInteger)capacity forPlacement:(NSString *)placementKey {
+    [self.capacityDic safeSetObject:@(capacity) forKey:placementKey];
+}
+
 - (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption {
     
-    NSMutableOrderedSet<NSNumber *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
-    if (placementAdPool && placementAdPool.count == 0) {
-        [self loadNativeAds:placementKey loadImageOption:loadImageOption preload:YES];
-    }
+    [self clearErrorForPlace:placementKey];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
+    [self.loadImageOptionDic safeSetObject:@(loadImageOption) forKey:placementKey];
+}
+
+- (void)preloadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption capacity:(NSUInteger)capacity {
+    
+    [self clearErrorForPlace:placementKey];
+    [self setCapacity:capacity forPlacement:placementKey];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:YES];
+    [self.loadImageOptionDic safeSetObject:@(loadImageOption) forKey:placementKey];
 }
 
 - (ZFReformedNativeAd *)fetchPreloadAdForPlacement:(NSString *)placementKey {
     
-    NSMutableOrderedSet<NSNumber *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+    [self clearErrorForPlace:placementKey];
+    NSMutableArray<ZFReformedNativeAd *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
     if (placementAdPool && placementAdPool.count > 0) {
         [placementAdPool sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            return [[self.priorityIndicator objectAtIndex:[obj1 unsignedIntegerValue]] compare:[self.priorityIndicator objectAtIndex:[obj2 unsignedIntegerValue]]];
+            ZFReformedNativeAd *ad1 = obj1;
+            ZFReformedNativeAd *ad2 = obj2;
+            return [[self.priorityIndicator objectAtIndex:[ad1 platform]] compare:[self.priorityIndicator objectAtIndex:[ad2 platform]]];
         }];
         NSLog(@"【ZFNativeAdsManager】native ad sorted pool for this placement:%@", placementAdPool);
         
-        NSNumber *platformIndex = [placementAdPool firstObject];
-        ZFNativeAdsPlatform index = [platformIndex intValue];
+        ZFReformedNativeAd *nativeAd = [placementAdPool firstObject];
+        [placementAdPool removeObject:nativeAd];
         
-        return [self fetchAdFromPlatform:index placement:placementKey];
+        [self fillUpAdPoolIfNecessary:placementKey platform:nativeAd.platform];
+        
+        return nativeAd;
     }
+    [self fillUpAdPoolIfNecessary:placementKey];
 
     return nil;
 }
 
-- (void)fetchAdForPlacement:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption fetchBlock:(ZFReformedAdFetchBlock)fetchblock {
+- (NSArray<ZFReformedNativeAd *> *)fetchPreloadAdForPlacement:(NSString *)placementKey count:(NSUInteger)count {
     
-    NSMutableOrderedSet<NSNumber *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+    [self clearErrorForPlace:placementKey];
+    NSMutableArray<ZFReformedNativeAd *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
     if (placementAdPool && placementAdPool.count > 0) {
         [placementAdPool sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            return [[self.priorityIndicator objectAtIndex:[obj1 unsignedIntegerValue]] compare:[self.priorityIndicator objectAtIndex:[obj2 unsignedIntegerValue]]];
+            ZFReformedNativeAd *ad1 = obj1;
+            ZFReformedNativeAd *ad2 = obj2;
+            return [[self.priorityIndicator objectAtIndex:[ad1 platform]] compare:[self.priorityIndicator objectAtIndex:[ad2 platform]]];
         }];
         NSLog(@"【ZFNativeAdsManager】native ad sorted pool for this placement:%@", placementAdPool);
         
-        NSNumber *platformIndex = [placementAdPool firstObject];
-        ZFNativeAdsPlatform index = [platformIndex intValue];
+        NSUInteger fetchedCount = (count < placementAdPool.count) ? count : placementAdPool.count;
+        NSMutableArray *reformedNativeAds = [NSMutableArray arrayWithCapacity:fetchedCount];
+        
+        NSMutableArray<ZFReformedNativeAd *> *newPlacementAdPool = [NSMutableArray arrayWithArray:placementAdPool];
+        
+        for (ZFReformedNativeAd *nativeAd in placementAdPool) {
+            BOOL appear = NO;
+            for (ZFReformedNativeAd *uniqueAd in reformedNativeAds) {
+                if ([uniqueAd.title isEqualToString:nativeAd.title]) {
+                    appear = YES;
+                    break ;
+                }
+            }
+            if (!appear) {
+                [reformedNativeAds addObject:nativeAd];
+                [newPlacementAdPool removeObject:nativeAd];
+            }
+            if (reformedNativeAds.count >= fetchedCount) {
+                break ;
+            }
+        }
+        
+        [self.nativeAdsPool safeSetObject:newPlacementAdPool forKey:placementKey];
+        
+        [self fillUpAdPoolIfNecessary:placementKey];
+        
+        return [reformedNativeAds copy];
+    }
+    [self fillUpAdPoolIfNecessary:placementKey];
+    return [NSArray array];
+}
+
+- (void)fetchAdForPlacement:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption fetchBlock:(ZFReformedAdFetchBlock)fetchblock {
+    
+    NSMutableArray<ZFReformedNativeAd *> *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+    if (placementAdPool && placementAdPool.count > 0) {
+        [placementAdPool sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            ZFReformedNativeAd *ad1 = obj1;
+            ZFReformedNativeAd *ad2 = obj2;
+            return [[self.priorityIndicator objectAtIndex:[ad1 platform]] compare:[self.priorityIndicator objectAtIndex:[ad2 platform]]];
+        }];
+        NSLog(@"【ZFNativeAdsManager】native ad sorted pool for this placement:%@", placementAdPool);
+        
+        ZFReformedNativeAd *nativeAd = [placementAdPool objectAtIndex:0];
+        [placementAdPool removeObjectAtIndex:0];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            fetchblock([self fetchAdFromPlatform:index placement:placementKey]);
+            fetchblock(nativeAd);
         });
     } else {
         
-        [self.reformedAdFetchBlockDictionary setObject:fetchblock forKey:placementKey];
+        [self.reformedAdFetchBlockDictionary safeSetObject:fetchblock forKey:placementKey];
         
-        [self loadNativeAds:placementKey loadImageOption:loadImageOption preload:NO];
+        [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption preload:NO];
     }
     
 }
@@ -193,34 +266,32 @@
     
     NSLog(@"【ZFNativeAdsManager】native ad did load from platform:%ld, placement:%@", (long)platform, placementKey);
     
-    NSMutableOrderedSet *placementAdsPool = [self.nativeAdsPool objectForKey:placementKey];
-    NSUInteger beforeCount = placementAdsPool.count;
+    NSMutableOrderedSet *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+    NSUInteger beforeCount = placementAdPool.count;
     
-    [placementAdsPool addObject:@(platform)];
-    [self.nativeAdsPool setObject:placementAdsPool forKey:placementKey];
-    
-    if (!beforeCount) {
+    ZFReformedAdFetchBlock fetchBlock = [self.reformedAdFetchBlockDictionary objectForKey:placementKey];
+    if (!beforeCount && fetchBlock) {
         NSLog(@"【ZFNativeAdsManager】native ad did load for placement:%@", placementKey);
-        ZFReformedAdFetchBlock fetchBlock = [self.reformedAdFetchBlockDictionary objectForKey:placementKey];
-        if (fetchBlock) {
-            
-            ZFReformedNativeAd *reformedAd = [self fetchAdFromPlatform:platform placement:placementKey];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                fetchBlock(reformedAd);
-            });
-            
-            [self.reformedAdFetchBlockDictionary removeObjectForKey:placementKey];
-        }
+        
+        ZFReformedNativeAd *reformedAd = [self fetchAdFromPlatform:platform placement:placementKey];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            fetchBlock(reformedAd);
+        });
+        
+        [self.reformedAdFetchBlockDictionary removeObjectForKey:placementKey];
+    }else {
+        [self saveAdToPoolOfPlace:placementKey platform:platform];
+        
+        [self fillUpAdPoolIfNecessary:placementKey platform:platform];
     }
+    [self clearErrorForPlace:placementKey platform:platform];
 }
 
-- (void)nativeAdStatusLoading:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey {
-    
-    NSLog(@"【ZFNativeAdsManager】native ad status loading for platform:%ld, placement:%@", (long)platform, placementKey);
-    
-    NSMutableOrderedSet *placementAdsPool = [self.nativeAdsPool objectForKey:placementKey];
-    [placementAdsPool removeObject:@(platform)];
-    [self.nativeAdsPool setObject:placementAdsPool forKey:placementKey];
+- (void)nativeAdDidFail:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey error:(NSError *)error {
+    [self recordErrorOfPlace:placementKey platform:platform];
+    if (![self shouldStopLoadAtPlace:placementKey platform:platform]) {
+        [self fillUpAdPoolIfNecessary:placementKey platform:platform];
+    }
 }
 
 - (void)nativeAdDidClick:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey {
@@ -231,15 +302,35 @@
 }
 
 #pragma mark - Private methods
-- (void)loadNativeAds:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption preload:(BOOL)preload {
+
+- (void)loadNativeAdsIfNecessary:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption preload:(BOOL)preload {
     
-    if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformFacebook] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
-        [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadFacebookNativeAds:placementKey loadImageOption:loadImageOption preload:preload];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption platform:ZFNativeAdsPlatformFacebook preload:preload];
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption platform:ZFNativeAdsPlatformMobvista preload:preload];
+}
+
+- (void)loadNativeAdsIfNecessary:(NSString *)placementKey loadImageOption:(ZFNativeAdsLoadImageOption)loadImageOption platform:(ZFNativeAdsPlatform)platform preload:(BOOL)preload {
+    
+    switch (platform) {
+        case ZFNativeAdsPlatformFacebook:
+            if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformFacebook] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
+                if (![self isFullInAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformFacebook]) {
+                    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadFacebookNativeAds:placementKey loadImageOption:loadImageOption preload:preload];
+                }
+            }
+            break;
+        case ZFNativeAdsPlatformMobvista:
+            if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformMobvista] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
+                if (![self isFullInAdPoolOfPlace:placementKey platform:ZFNativeAdsPlatformMobvista]) {
+                    [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadMobvistaNativeAds:placementKey loadImageOption:loadImageOption];
+                }
+            }
+            break;
+            
+        default:
+            break;
     }
     
-    if ([[self.priorityIndicator objectAtIndex:ZFNativeAdsPlatformMobvista] unsignedIntegerValue] < ZFNativeAdsPlatformCount) {
-        [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_loadMobvistaNativeAds:placementKey loadImageOption:loadImageOption];
-    }
 }
 
 - (ZFReformedNativeAd *)fetchAdFromPlatform:(ZFNativeAdsPlatform)platform placement:(NSString *)placementKey {
@@ -273,6 +364,100 @@
     
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setFacebookDebugLogEnable:enable];
     [[ZFNativeAdsMediator sharedInstance] ZFNativeAdsMediator_setMobvistaDebugLogEnable:enable];
+}
+
+- (NSUInteger)countOfAd:(NSInteger)platform inPool:(NSMutableOrderedSet *)pool {
+    __block NSUInteger count = 0;
+    [pool enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        ZFReformedNativeAd *ad = obj;
+        if ([ad platform] == platform) {
+            count++;
+        }
+    }];
+    return count;
+}
+
+- (void)fillUpAdPoolIfNecessary:(NSString *)placementKey {
+    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self fillUpAdPoolIfNecessary:placementKey platform:ZFNativeAdsPlatformMobvista];
+}
+
+- (void)fillUpAdPoolIfNecessary:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
+    
+    NSNumber *loadImageOption = [self.loadImageOptionDic objectForKey:placementKey];
+    
+    if (!loadImageOption) {
+        loadImageOption = @(ZFNativeAdsLoadImageOptionNone);
+    }
+    [self loadNativeAdsIfNecessary:placementKey loadImageOption:loadImageOption.integerValue platform:platform preload:YES];
+}
+
+- (void)saveAdToPoolOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
+    
+    if (![self isFullInAdPoolOfPlace:placementKey platform:platform]) {
+        
+        NSMutableOrderedSet *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+        ZFReformedNativeAd *reformedAd = [self fetchAdFromPlatform:platform placement:placementKey];
+        
+        if (reformedAd) {
+            [placementAdPool addObject:reformedAd];
+            [self.nativeAdsPool safeSetObject:placementAdPool forKey:placementKey];
+        }
+    }
+}
+
+- (BOOL)isFullInAdPoolOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
+    NSMutableOrderedSet *placementAdPool = [self.nativeAdsPool objectForKey:placementKey];
+    NSUInteger adCount = [self countOfAd:platform inPool:placementAdPool];
+    if (adCount < [[self.capacityDic objectForKey:placementKey] integerValue]) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)recordErrorOfPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
+    if (![self.errorInfoDic objectForKey:placementKey]) {
+        NSMutableDictionary *placeAdErrorDic = [NSMutableDictionary dictionary];
+        [self.errorInfoDic safeSetObject:placeAdErrorDic forKey:placementKey];
+    }
+    NSMutableDictionary *placeAdErrorDic = [self.errorInfoDic objectForKey:placementKey];
+    if (![placeAdErrorDic objectForKey:@(platform)]) {
+        [placeAdErrorDic safeSetObject:@(0) forKey:@(platform)];
+    }
+    NSInteger count = [[placeAdErrorDic objectForKey:@(platform)] integerValue];
+    [placeAdErrorDic safeSetObject:@(count + 1) forKey:@(platform)];
+    [self.errorInfoDic safeSetObject:placeAdErrorDic forKey:placementKey];
+}
+
+- (void)clearErrorForPlace:(NSString *)placementKey {
+    [self clearErrorForPlace:placementKey platform:ZFNativeAdsPlatformFacebook];
+    [self clearErrorForPlace:placementKey platform:ZFNativeAdsPlatformMobvista];
+}
+
+- (void)clearErrorForPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
+    if (![self.errorInfoDic objectForKey:placementKey]) {
+        NSMutableDictionary *placeAdErrorDic = [NSMutableDictionary dictionary];
+        [self.errorInfoDic safeSetObject:placeAdErrorDic forKey:placementKey];
+    }
+    NSMutableDictionary *placeAdErrorDic = [self.errorInfoDic objectForKey:placementKey];
+    [placeAdErrorDic safeSetObject:@(0) forKey:@(platform)];
+}
+
+- (BOOL)shouldStopLoadAtPlace:(NSString *)placementKey platform:(ZFNativeAdsPlatform)platform {
+    if (![self.errorInfoDic objectForKey:placementKey]) {
+        NSMutableDictionary *placeAdErrorDic = [NSMutableDictionary dictionary];
+        [self.errorInfoDic safeSetObject:placeAdErrorDic forKey:placementKey];
+        return NO;
+    }
+    NSMutableDictionary *placeAdErrorDic = [self.errorInfoDic objectForKey:placementKey];
+    if (![placeAdErrorDic objectForKey:@(platform)]) {
+        [placeAdErrorDic safeSetObject:@(0) forKey:@(platform)];
+        return NO;
+    }
+    if ([[placeAdErrorDic objectForKey:@(platform)] integerValue] >= DPErrorTolerate) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Setters
@@ -316,6 +501,27 @@
         _reformedAdFetchBlockDictionary = [NSMutableDictionary dictionary];
     }
     return _reformedAdFetchBlockDictionary;
+}
+
+- (NSMutableDictionary *)capacityDic {
+    if (!_capacityDic) {
+        _capacityDic = [NSMutableDictionary dictionary];
+    }
+    return _capacityDic;
+}
+
+- (NSMutableDictionary *)loadImageOptionDic {
+    if (!_loadImageOptionDic) {
+        _loadImageOptionDic = [NSMutableDictionary dictionary];
+    }
+    return _loadImageOptionDic;
+}
+
+- (NSMutableDictionary *)errorInfoDic {
+    if (!_errorInfoDic) {
+        _errorInfoDic = [NSMutableDictionary dictionary];
+    }
+    return _errorInfoDic;
 }
 
 @end

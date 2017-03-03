@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |ss|
 
-    ss.source_files = 'ZFNativeAdsManager/Mediator/*.{h,m}'
+    ss.source_files = 'ZFNativeAdsManager/Mediator/*.{h,m}', 'ZFNativeAdsManager/Categories/Utils/*.{h,m}'
     ss.requires_arc = false
 
   end
