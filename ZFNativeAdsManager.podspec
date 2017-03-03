@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = 'ZFNativeAdsManager'
-  s.version      = '1.2.10'
+  s.version      = '1.3.0'
   s.summary      = 'ZFNativeAdsManager integrates and dispatches mainstream leading native ads platform.'
   s.homepage     = 'https://github.com/xbull/ZFNativeAdsManager'
   s.license      = 'MIT'
@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   s.subspec 'Mobvista' do |ss|
 
     ss.dependency 'ZFNativeAdsManager/NativeCore'
-    ss.source_files = 'ZFNativeAdsManager/Platforms/Mobvista/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Action/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Observer/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Optimize/*.{h,m}'
+    ss.source_files = 'ZFNativeAdsManager/Platforms/Mobvista/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Action/*.{h,m}', 'ZFNativeAdsManager/Platforms/Mobvista/Observer/*.{h,m}'
     ss.frameworks = 'CoreGraphics', 'Foundation', 'UIKit', 'AdSupport', 'StoreKit', 'QuartzCore', 'CoreLocation', 'CoreTelephony', 'MobileCoreServices', 'Accelerate', 'SystemConfiguration', 'CoreMotion', 'AVFoundation', 'CoreMedia', 'MessageUI', 'MediaPlayer'
     ss.vendored_frameworks = 'ZFNativeAdsManager/Platforms/Mobvista/Frameworks/MVSDK.framework'
     ss.libraries = 'z', 'sqlite3'
